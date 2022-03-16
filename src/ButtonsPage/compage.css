@@ -1,0 +1,91 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.mgb-5{
+  margin-bottom: 5px;
+}
+/* content */
+.content-wrap {
+  height: auto;
+}
+.content {
+  margin-top: 40px;
+  margin-left: 210px;
+  height: auto;
+}
+.content-view {
+  margin-top: 40px;
+  margin-left: 30px;
+  height: auto;
+}
+.content-main {
+  padding: 0 40px 0 40px;
+}
+.content-title {
+  margin: 40px 0 40px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #444;
+}
+.content-title h3 {
+  margin: 20px 0 10px 0;
+  font-size: 20px;
+}
+.left-frame {
+  position: relative;
+  padding: 0 1em;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+
+.notosanskr * {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/*                                   공용 form 스타일  */
+.form-frame {
+  font-family: "Noto Sans KR", sans-serif;
+  padding: 1.75rem;
+  border: 1px solid rgb(173, 170, 170);
+  border-radius: 5px;
+  width: 90%;
+  height: auto;
+  box-shadow: 0 1px 15px rgb(0 0 0 / 4%), 0 1px 6px rgb(0 0 0 / 4%);
+}
+.form-frame1 > form > label {
+  font-weight: bold;
+
+}
+
+.form-groups {
+  position: relative;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.form-groups p{
+  color: rgb(100, 100, 100);
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.form-groups label {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.form-control {
+  border-radius: 0.1rem;
+  outline: initial !important;
+  box-shadow: none !important;
+  font-size: 0.8rem;
+  border: 1px solid #d7d7d7;
+  background: #fff;
+  color: #3a3a3a;
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  line-height: 1;
+  display: block;
+  width: 90%;
+}
