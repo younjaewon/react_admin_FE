@@ -13,10 +13,10 @@ export default function HEADER() {
   };
 
   return (
-    <div id="header">
+    <div id="headerIn">
       <div className="header-top">
-        <div className="logo">
-          <h1>Godomall 5</h1>
+        <div className="logos" style={{ lineHeight: "1" }}>
+          Godomall 5
         </div>
         <div className="gnbTop">
           <ul className="list1">

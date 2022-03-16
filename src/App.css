@@ -94,6 +94,8 @@
   background-color: #444;
   z-index: 10;
   padding: 5px 0 8px 0;
+  width: 14px;
+  text-align: center;
 }
 .itemListButton::before {
   font-size: 15px;
@@ -115,7 +117,7 @@
 }
 
 /*  앱 css */
-#header {
+#headerIn {
   font-family: "Noto-Sans-CJK-KR";
   max-width: 100%;
   min-width: 1300px;
@@ -127,7 +129,7 @@
   padding-bottom: 12px;
 }
 
-.logo {
+.logos {
   margin-left: 20px;
   font-size: 30px;
   margin-top: 8px;
@@ -167,18 +169,18 @@
 
 /*  헤더의 gnb에 있는 메뉴 */
 
-#header .nav {
+#headerIn .nav {
   background-color: #444;
   height: 40px;
 }
-#header .nav ul {
+#headerIn .nav ul {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   line-height: 2.5;
   background-color: #444;
 }
-#header .nav ul .navlist {
+#headerIn .nav ul .navlist {
   background-color: #444;
   min-width: 97px;
   vertical-align: middle;
@@ -205,7 +207,7 @@
   width: 97px;
   text-align: center;
 }
-#header .nav ul .navlist:hover {
+#headerIn .nav ul .navlist:hover {
   background-color: rgb(88, 88, 88);
   min-width: 97px;
   vertical-align: middle;
@@ -230,7 +232,7 @@
   margin-right: 10px;
 } */
 
-#header .nav ul > li > a {
+#headerIn .nav ul > li > a {
   color: rgb(247, 243, 243);
   padding-left: 0;
   padding-right: 0;
