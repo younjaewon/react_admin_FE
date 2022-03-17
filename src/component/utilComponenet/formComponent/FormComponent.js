@@ -12,7 +12,6 @@ const FormComponent = ({ items, changeForm }) => {
           name={item.value.name}
           readonly={item.value.readonly}
           changeForm={changeForm}
-          value={item.value.inValue}
         />
       ))}
     </div>

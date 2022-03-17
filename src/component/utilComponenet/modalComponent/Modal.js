@@ -1,20 +1,20 @@
 import React from "react";
-import { useState } from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({ open, closeModal, changeModalForm }) => {
+const Modal = ({ open, closeModal, changeModalForm, addModalColumn }) => {
   return (
     <div>
       <ModalComponent
         open={open}
         close={closeModal}
+        addModalColumn={addModalColumn}
         header="재고등록"
         main={
           <>
             <Form
               items={[
-                { value: { name: "label", text: "메뉴명" } },
+                { value: { name: "label", text: "컬럼명" } },
                 { value: { name: "orders", text: "정렬순서" } },
               ]}
               changeForm={changeModalForm}
@@ -23,13 +23,13 @@ const Modal = ({ open, closeModal, changeModalForm }) => {
               <tbody>
                 <tr>
                   <td>
-                    <label>품목</label>
+                    <label>순서</label>
                   </td>
                   <td>
-                    <label>품목코드</label>
+                    <label>컬럼명</label>
                   </td>
                   <td>
-                    <label>수량</label>
+                    <label>삭제</label>
                   </td>
                 </tr>
                 <tr>

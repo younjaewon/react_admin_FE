@@ -1,6 +1,6 @@
 import React from "react";
 
-const FormItem = ({ text, name, changeForm, readonly, value }) => {
+const FormItem = ({ text, name, changeForm, readonly }) => {
   return (
     <div style={{ display: "flex" }}>
       <div
@@ -23,7 +23,6 @@ const FormItem = ({ text, name, changeForm, readonly, value }) => {
           style={{ width: "100%", height: "24px" }}
           placeholder={text}
           readOnly={readonly}
-          value={value || ""}
           onChange={changeForm}
         />
       </div>

@@ -82,6 +82,7 @@ export default function StoreManageMenu() {
   const [modalFormData, setModalFormData] = useState({});
   const [treeMenu, setTreeMenu] = useState([]);
   const [companyNo, setCompanyNo] = useState("1");
+  const [menuColumnList, setMenuColumnList] = useState([]);
 
   useEffect(() => {
     axios
@@ -109,6 +110,34 @@ export default function StoreManageMenu() {
       .then((response) => console.log(response));
   };
 
+  const menuColumnGet = async (menuIdx) => {
+    await axios
+      .get(BASE_URL + "menu/column", { params: { menu_idx: menuIdx } })
+      .then((response) => {
+        console.log(response.data);
+        setMenuColumnList(response.data);
+      });
+  };
+
+  const menuColumnAdd = async () => {
+    let modalColumnData = new FormData();
+    const columnData = { ...modalFormData };
+    for (let item in columnData) {
+      modalColumnData.append(item, columnData[item]);
+    }
+    debugger;
+
+    await axios
+      .post(BASE_URL + "menu/column", modalColumnData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
   // 모달 열고 닫기할때 로그 불러오기
   const openModal = () => {
     setModalOpen(true);
@@ -121,8 +150,9 @@ export default function StoreManageMenu() {
 
   const onSelect = (selectedKeys, info) => {
     if (info.node.isLeaf) {
-      openModal();
+      menuColumnGet(selectedKeys[0]);
       setModalFormData({ ...modalFormData, menu_idx: selectedKeys[0] });
+      openModal();
     } else {
       setFormData({
         ...formData,
@@ -130,14 +160,11 @@ export default function StoreManageMenu() {
         upmenu: info.node.indexNo,
       });
     }
-
-    console.log(formData);
     console.log("selected", selectedKeys, info);
   };
 
   const changeForm = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(formData);
   };
 
   const changeModalForm = (e) => {
@@ -197,21 +224,18 @@ export default function StoreManageMenu() {
                         name: "company_idx",
                         text: "회사코드",
                         readonly: "readonly",
-                        inValue: formData.company_idx,
                       },
                     },
                     {
                       value: {
                         name: "name",
                         text: "메뉴이름",
-                        inValue: formData.name,
                       },
                     },
                     {
                       value: {
                         name: "codes",
                         text: "코드",
-                        inValue: formData.codes,
                       },
                     },
                     {
@@ -219,35 +243,30 @@ export default function StoreManageMenu() {
                         name: "upmenu",
                         text: "대메뉴번호",
                         readonly: "readonly",
-                        inValue: formData.upmenu,
                       },
                     },
                     {
                       value: {
                         name: "isregi",
                         text: "isregi",
-                        inValue: formData.isregi,
                       },
                     },
                     {
                       value: {
                         name: "isexcel",
                         text: "isexcel",
-                        inValue: formData.isexcel,
                       },
                     },
                     {
                       value: {
                         name: "list_column_idx",
                         text: "list_column_idx",
-                        inValue: formData.list_column_idx,
                       },
                     },
                     {
                       value: {
                         name: "orders",
                         text: "정렬",
-                        inValue: formData.orders,
                       },
                     },
                   ]}
@@ -258,6 +277,7 @@ export default function StoreManageMenu() {
                 open={modalOpen}
                 closeModal={closeModal}
                 changeModalForm={changeModalForm}
+                addModalColumn={menuColumnAdd}
               />
             </div>
           </div>
