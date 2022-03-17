@@ -1,0 +1,18 @@
+.sideMenuName {
+    height: 90px;
+    text-align: center;
+    line-height: 1;
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .sideMenuName h2 {
+    font-family: "Noto-Sans-CJK-KR";
+    font-size: 18px;
+    padding: 40px 0 15px 0;
+  }
+  .sideMenuText {
+    font-size: 13px;
+  }
+  .sideMenuText:hover {
+    text-decoration: underline;
+  }
