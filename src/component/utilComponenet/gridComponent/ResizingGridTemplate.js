@@ -23,7 +23,7 @@ const MyBox = styled.div`
   }
 `;
 
-const ResizingGridTemplate = ({ gridData, gridColumn }) => {
+const ResizingGridTemplate = ({ gridData, gridColumn, onClick }) => {
   const [boxWidth, setBoxWidth] = useState("1000");
   const [boxHeight, setBoxHeight] = useState("600");
   const [gridItem, setGridItem] = useState({
@@ -73,6 +73,7 @@ const ResizingGridTemplate = ({ gridData, gridColumn }) => {
               data={gridItem.gridData}
               dataLength={gridItem.gridColumn.length}
               options={{}}
+              onClick={onClick}
             />
             <div className="resizer" onMouseDownCapture={handleColResizerMove}>
               ⇆
@@ -80,6 +81,7 @@ const ResizingGridTemplate = ({ gridData, gridColumn }) => {
           </MyBox>
         </Segment>
       </Wrapper>
+      
     </div>
   );
 };
