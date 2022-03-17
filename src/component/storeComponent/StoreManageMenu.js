@@ -191,7 +191,14 @@ export default function StoreManageMenu() {
                       value: {
                         name: "company_idx",
                         text: "회사코드",
-                        readonly: "readonly",
+                        readonly: true,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "upmenu",
+                        text: "대메뉴번호",
+                        readonly: true,
                       },
                     },
                     {
@@ -206,13 +213,7 @@ export default function StoreManageMenu() {
                         text: "코드",
                       },
                     },
-                    {
-                      value: {
-                        name: "upmenu",
-                        text: "대메뉴번호",
-                        readonly: "readonly",
-                      },
-                    },
+
                     {
                       value: {
                         name: "isregi",

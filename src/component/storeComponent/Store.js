@@ -1,5 +1,6 @@
 import Grid from ".././utilComponenet/gridComponent/ResizingGridTemplate";
 import Form from ".././utilComponenet/formComponent/FormComponent";
+import BASE_URL from "../../utils/Api";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -20,7 +21,7 @@ const gridColumn = [
   { key: "usedomain", width: 100, label: "도메인", align: "center" },
 ];
 
-const API_URL="http://cadd-175-119-149-98.ngrok.io";
+const API_URL = BASE_URL;
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -31,42 +32,48 @@ export default function Home() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(()=> {
-    axios.get(API_URL+"/company")
-    .then((res)=>{
-      setData(res.data);
-    })
-    .catch((err)=>{console.log(err)})
-  },[re])
+  useEffect(() => {
+    axios
+      .get(API_URL + "/company")
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [re]);
 
-  const viewData=[];
-  for(let i=0; i<data.length; i++){
-    viewData.push({value:data[i]})
-  };
+  const viewData = [];
+  for (let i = 0; i < data.length; i++) {
+    viewData.push({ value: data[i] });
+  }
 
-  const handelCreate = () => { 
+  const handelCreate = () => {
     const createData = window.confirm("데이터를 생성 하시겠습니까?");
-    
-    const newFormData = new FormData;
+
+    const newFormData = new FormData();
     newFormData.append(
       "newFormData",
       new Blob([JSON.stringify(formData)], { type: "application/json" })
     );
-    if(createData){
-      axios.post(API_URL+"/company", newFormData, {
-          headers: {"content-type":"multipart/form-data"}
-      }).then((response) => {
-          if(re===0){
+    if (createData) {
+      axios
+        .post(API_URL + "/company", newFormData, {
+          headers: { "content-type": "multipart/form-data" },
+        })
+        .then((response) => {
+          if (re === 0) {
             setRe(1);
-          }else if(re===1){
+          } else if (re === 1) {
             setRe(0);
           }
-      }).catch((err) => {
+        })
+        .catch((err) => {
           console.log(err);
-      });
-    }else{}
+        });
+    } else {
+    }
   };
-
 
   return (
     <>
