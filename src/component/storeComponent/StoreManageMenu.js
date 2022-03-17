@@ -14,6 +14,7 @@ export default function StoreManageMenu() {
   const [companyNo, setCompanyNo] = useState("1");
   const [menuIndexNo, setMenuIndexNo] = useState("");
   const [menuColumnList, setMenuColumnList] = useState([]);
+  const [selectCompany, setSelectCompany] = useState([]);
 
   useEffect(() => {
     axios
@@ -24,6 +25,17 @@ export default function StoreManageMenu() {
         setTreeMenu(response.data);
       });
   }, [companyNo]);
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + "/company")
+      .then((response) => {
+        setSelectCompany(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const addMenu = (e) => {
     let menuFormData = new FormData();
@@ -171,8 +183,11 @@ export default function StoreManageMenu() {
             </button>
             <div>
               <select onChange={changeSelect}>
-                <option value="1">단디메카</option>
-                <option value="2">산돌식품</option>
+                {selectCompany.map((item) => (
+                  <option key={item.indexNo} value={item.indexNo}>
+                    {item.cname}
+                  </option>
+                ))}
               </select>
             </div>
             <div style={{ display: "flex" }}>
