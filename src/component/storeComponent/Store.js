@@ -35,7 +35,6 @@ export default function Home() {
     axios.get(API_URL+"/company")
     .then((res)=>{
       setData(res.data);
-      console.log(res)
     })
     .catch((err)=>{console.log(err)})
   },[re])
@@ -57,7 +56,6 @@ export default function Home() {
       axios.post(API_URL+"/company", newFormData, {
           headers: {"content-type":"multipart/form-data"}
       }).then((response) => {
-          console.log("create",response);
           if(re===0){
             setRe(1);
           }else if(re===1){
