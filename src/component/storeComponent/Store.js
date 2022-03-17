@@ -12,41 +12,20 @@ const gridColumn = [
   { key: "dphone", width: 100, label: "대표자폰", align: "center" },
   { key: "damName", width: 100, label: "담당자", align: "center" },
   { key: "damPhone", width: 150, label: "담당자연락처", align: "center" },
-  { key: "damcp", width: 100, label: "담당자휴대폰", align: "center" },
-  { key: "damemail", width: 100, label: "담당자이메일", align: "center" },
-  
+  { key: "damCp", width: 100, label: "담당자휴대폰", align: "center" },
+  { key: "damEmail", width: 100, label: "담당자이메일", align: "center" },
+  { key: "zipcode", width: 100, label: "도로명", align: "center" },
+  { key: "addr1", width: 100, label: "주소", align: "center" },
+  { key: "addr2", width: 100, label: "상세주소", align: "center" },
+  { key: "usedomain", width: 100, label: "도메인", align: "center" },
 ];
 
-const gridData = [
-  {
-    value: {
-      index_no: "불출",
-      c_name: "1",
-      b_number: "2022-02-03",
-      b_number: "생산부",
-      d_name: "김생산",
-      dam_name: "A220201153201",
-      dam_phone: "A-001",
-    },
-  },
-  {
-    value: {
-      index_no: "불출1",
-      c_name: "2",
-      b_number: "2022-02-03",
-      b_number: "생산부2",
-      d_name: "김생산2",
-      dam_name: "A220201153202",
-      dam_phone: "A-002",
-    },
-  },
-];
 const API_URL="http://cadd-175-119-149-98.ngrok.io";
 
 export default function Home() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
   const [formData, setFormData] = useState({});
-  const [view, setView] = useState(1);
+  const [re, setRe] = useState(0);
 
   const changeForm = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,7 +38,7 @@ export default function Home() {
       console.log(res)
     })
     .catch((err)=>{console.log(err)})
-  },[])
+  },[re])
 
   const viewData=[];
   for(let i=0; i<data.length; i++){
@@ -79,6 +58,11 @@ export default function Home() {
           headers: {"content-type":"multipart/form-data"}
       }).then((response) => {
           console.log("create",response);
+          if(re===0){
+            setRe(1);
+          }else if(re===1){
+            setRe(0);
+          }
       }).catch((err) => {
           console.log(err);
       });
@@ -116,7 +100,7 @@ export default function Home() {
               <Grid gridColumn={gridColumn} gridData={viewData} />
               <Form
                 items={[
-                  { value: { name: "cname", text: "사용자명" } },
+                  { value: { name: "cname", text: "사업자명" } },
                   { value: { name: "bnumber", text: "사업자등록번호" } },
                   { value: { name: "ctype1", text: "업종" } },
                   { value: { name: "ctype2", text: "업태" } },

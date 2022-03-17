@@ -19,7 +19,7 @@ const Modal = ({ open, closeModal, changeModalForm, addModalColumn, data }) => {
                 { value: { name: "logDay", text: "발생일", content: data.logDay}},
                 { value: { name: "logTime", text: "발생시", content: data.logTime}},
                 { value: { name: "message", text: "예외 메세지", content: data.message}},
-                { value: { name: "requestUrl", text: "요청 url", content: data.requestUrl}},
+                { value: { name: "requestUrl", text: "요청 URL", content: data.requestUrl}},
                 { value: { name: "sendDate", text: "요청일시", content: data.sendDate}},
               ]}
               changeForm={changeModalForm}

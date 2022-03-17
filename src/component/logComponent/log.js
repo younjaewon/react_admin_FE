@@ -16,7 +16,7 @@ const gridData = [
   {
     value: {
       comCd: "test company",
-      userName: "이름",
+      userName: "testname",
       logDay: "2022-02-03",
       logTime: "01:11:11",
       message: "test",
@@ -27,7 +27,7 @@ const gridData = [
   {
     value: {
       comCd: "com",
-      userName: "이름",
+      userName: "name",
       logDay: "2022-05-05",
       logTime: "12:21:11",
       message: "test",
