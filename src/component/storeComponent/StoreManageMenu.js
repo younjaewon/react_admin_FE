@@ -6,82 +6,13 @@ import { useEffect, useState } from "react";
 import BASE_URL from "../../utils/Api";
 import axios from "axios";
 
-const treeData = [
-  {
-    title: "parent 1",
-    indexNo: "0-0",
-    leaf: "1",
-    isLeaf: true,
-    children: [
-      {
-        title: "parent 1-0",
-        indexNo: "0-0-0",
-        children: [
-          {
-            title: "leaf",
-            indexNo: "0-0-0-0",
-          },
-          {
-            title: "leaf",
-            indexNo: "0-0-0-1",
-          },
-        ],
-      },
-      {
-        title: "parent 1-1",
-        indexNo: "0-0-1",
-        children: [
-          {
-            title: (
-              <span
-                style={{
-                  color: "#1890ff",
-                }}
-              >
-                sss
-              </span>
-            ),
-            indexNo: "0-0-1-0",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: "parent 1",
-    indexNo: "0-0",
-    leaf: "1",
-    children: [
-      {
-        title: "parent 1-0",
-        indexNo: "0-0-0",
-        children: [
-          {
-            title: "leaf",
-            indexNo: "0-0-0-0",
-            children: [
-              {
-                title: "leaf",
-                indexNo: "0-0-0-5",
-              },
-            ],
-          },
-          {
-            title: "leaf",
-            indexNo: "0-0-0-1",
-          },
-        ],
-      },
-    ],
-  },
-];
-
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
   const [formData, setFormData] = useState({});
   const [modalFormData, setModalFormData] = useState({});
   const [treeMenu, setTreeMenu] = useState([]);
   const [companyNo, setCompanyNo] = useState("1");
+  const [menuIndexNo, setMenuIndexNo] = useState("");
   const [menuColumnList, setMenuColumnList] = useState([]);
 
   useEffect(() => {
@@ -128,7 +59,7 @@ export default function StoreManageMenu() {
 
   const menuColumnGet = async (menuIdx) => {
     await axios
-      .get(BASE_URL + "menu/column", { params: { menu_idx: menuIdx } })
+      .get(BASE_URL + "/menu/column", { params: { menu_idx: menuIdx } })
       .then((response) => {
         console.log(response.data);
         setMenuColumnList(response.data);
@@ -136,18 +67,40 @@ export default function StoreManageMenu() {
   };
 
   const menuColumnAdd = async () => {
-    let modalColumnData = new FormData();
-    const columnData = { ...modalFormData };
-    for (let item in columnData) {
-      modalColumnData.append(item, columnData[item]);
-    }
+    let newFormData = new FormData();
+
+    newFormData.append(
+      "newFormData",
+      new Blob(
+        [
+          JSON.stringify({
+            menuIdx: modalFormData.menu_idx,
+            label: modalFormData.label,
+            orders: modalFormData.orders,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
 
     await axios
-      .post(BASE_URL + "menu/column", modalColumnData, {
+      .post(BASE_URL + "/menu/column", newFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
+      .then((response) => {
+        menuColumnGet(modalFormData.menu_idx);
+        setModalFormData({ ...modalFormData, label: "", orders: "" });
+      });
+  };
+
+  const menuColumnDel = (e) => {
+    const indexNo = e.target.name;
+    axios
+      .delete(BASE_URL + "/menu/column", { data: { indexNo } })
       .then((response) => {
         console.log(response);
       });
@@ -293,6 +246,8 @@ export default function StoreManageMenu() {
                 closeModal={closeModal}
                 changeModalForm={changeModalForm}
                 addModalColumn={menuColumnAdd}
+                columnList={menuColumnList}
+                columnDel={menuColumnDel}
               />
             </div>
           </div>

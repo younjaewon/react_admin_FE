@@ -2,7 +2,29 @@ import React from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({ open, closeModal, changeModalForm, addModalColumn }) => {
+const Modal = ({
+  open,
+  closeModal,
+  changeModalForm,
+  addModalColumn,
+  columnList,
+  columnDel,
+}) => {
+  const columnListSet = () => {
+    const columItem = columnList.map((item) => (
+      <tr key={item.indexNo}>
+        <td>{item.indexNo}</td>
+        <td>{item.orders}</td>
+        <td>{item.label}</td>
+        <td>
+          <button name={item.indexNo} onClick={columnDel}>
+            삭제
+          </button>
+        </td>
+      </tr>
+    ));
+    return columItem;
+  };
   return (
     <div>
       <ModalComponent
@@ -19,9 +41,14 @@ const Modal = ({ open, closeModal, changeModalForm, addModalColumn }) => {
               ]}
               changeForm={changeModalForm}
             />
-            <table>
+            <table
+              style={{ textAlign: "center", width: "100%", marginTop: "10px" }}
+            >
               <tbody>
                 <tr>
+                  <td>
+                    <label>메뉴번호</label>
+                  </td>
                   <td>
                     <label>순서</label>
                   </td>
@@ -29,29 +56,10 @@ const Modal = ({ open, closeModal, changeModalForm, addModalColumn }) => {
                     <label>컬럼명</label>
                   </td>
                   <td>
-                    <label>삭제</label>
+                    <label>버튼</label>
                   </td>
                 </tr>
-                <tr>
-                  <td>123</td>
-                  <td>123</td>
-                  <td>123</td>
-                </tr>
-                <tr>
-                  <td>123</td>
-                  <td>123</td>
-                  <td>123</td>
-                </tr>
-                <tr>
-                  <td>123</td>
-                  <td>123</td>
-                  <td>123</td>
-                </tr>
-                <tr>
-                  <td>123</td>
-                  <td>123</td>
-                  <td>123</td>
-                </tr>
+                {columnListSet()}
               </tbody>
             </table>
           </>
