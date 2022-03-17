@@ -71,7 +71,7 @@ const ResizingGridTemplate = ({ gridData, gridColumn, onClick }) => {
               style={{ fontSize: "12px" }}
               columns={gridItem.gridColumn}
               data={gridItem.gridData}
-              dataLength={gridItem.gridColumn.length}
+              dataLength={gridItem.gridData.length}
               options={{}}
               onClick={onClick}
             />
@@ -81,7 +81,6 @@ const ResizingGridTemplate = ({ gridData, gridColumn, onClick }) => {
           </MyBox>
         </Segment>
       </Wrapper>
-      
     </div>
   );
 };

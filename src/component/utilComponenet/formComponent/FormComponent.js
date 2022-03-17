@@ -1,7 +1,7 @@
 import React from "react";
 import FormItem from "./FormItem";
 
-const FormComponent = ({ items, changeForm, readOnly }) => {
+const FormComponent = ({ items, changeForm }) => {
   return (
     <div style={{ flex: "1" }}>
       {items.map((item) => (
@@ -10,8 +10,8 @@ const FormComponent = ({ items, changeForm, readOnly }) => {
           text={item.value.text}
           name={item.value.name}
           content={item.value.content}
+          readOnly={item.value.readonly}
           changeForm={changeForm}
-          readOnly={readOnly}
         />
       ))}
     </div>

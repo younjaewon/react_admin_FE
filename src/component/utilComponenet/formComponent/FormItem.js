@@ -29,5 +29,5 @@ const FormItem = ({ text, name, changeForm, content, readOnly }) => {
       </div>
     </div>
   );
-}
+};
 export default FormItem;
