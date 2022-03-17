@@ -1,40 +1,58 @@
+import { useState } from "react";
 import Grid from ".././utilComponenet/gridComponent/ResizingGridTemplate";
+import Modal from "../utilComponenet/modalComponent/LogModal";
 
 const gridColumn = [
-  { key: "index_no", width: 100, label: "No", align: "center" },
-  { key: "c_name", width: 150, label: "사업자명", align: "center" },
-  { key: "b_number", width: 150, label: "사업자등록번호", align: "center" },
-  { key: "d_name", width: 100, label: "대표자", align: "center" },
-  { key: "dam_name", width: 100, label: "담당자", align: "center" },
-  { key: "dam_phone", width: 150, label: "담당자연락처", align: "center" },
+  { key: "comCd", width: 100, label: "회사코드", align: "center" },
+  { key: "userName", width: 100, label: "유저명", align: "center" },
+  { key: "logDay", width: 100, label: "발생일", align: "center" },
+  { key: "logTime", width: 100, label: "발생시", align: "center" },
+  { key: "message", width: 100, label: "예외 메세지", align: "center" },
+  { key: "requestUrl", width: 100, label: "요청 url", align: "center" },
+  { key: "sendDate", width: 100, label: "요청일시", align: "center" },
 ];
 
 const gridData = [
   {
     value: {
-      index_no: "불출",
-      c_name: "1",
-      b_number: "2022-02-03",
-      b_number: "생산부",
-      d_name: "김생산",
-      dam_name: "A220201153201",
-      dam_phone: "A-001",
+      comCd: "test company",
+      userName: "이름",
+      logDay: "2022-02-03",
+      logTime: "01:11:11",
+      message: "test",
+      requestUrl: "test.test",
+      sendDate: "2022-02-03",
     },
   },
   {
     value: {
-      index_no: "불출1",
-      c_name: "2",
-      b_number: "2022-02-03",
-      b_number: "생산부2",
-      d_name: "김생산2",
-      dam_name: "A220201153202",
-      dam_phone: "A-002",
+      comCd: "com",
+      userName: "이름",
+      logDay: "2022-05-05",
+      logTime: "12:21:11",
+      message: "test",
+      requestUrl: "test.test",
+      sendDate: "2022-05-05",
     },
   },
 ];
 
 export default function Home() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [data, setData] = useState({});
+
+  const openModal = (e) => {
+    setData(e.item.value)
+    if(modalOpen===false){
+      setModalOpen(true);
+    }
+  }
+  const modalClose = () => {
+    if(modalOpen===true){
+      setModalOpen(false);
+    }
+  }
+
   return (
     <>
       <div className="content-wrap">
@@ -43,7 +61,8 @@ export default function Home() {
             <div className="content-title">
               <h3>로그관리</h3>
             </div>
-            <Grid gridColumn={gridColumn} gridData={gridData} />
+            <Grid gridColumn={gridColumn} gridData={gridData} onClick={openModal} />
+            <Modal open={modalOpen} closeModal={modalClose} data={data} />
           </div>
         </div>
       </div>

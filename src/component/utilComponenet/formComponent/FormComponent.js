@@ -2,7 +2,7 @@ import varValueConvert from "cross-env/src/variable";
 import React from "react";
 import FormItem from "./FormItem";
 
-const FormComponent = ({ items, changeForm }) => {
+const FormComponent = ({ items, changeForm, readOnly }) => {
   return (
     <div style={{ flex: "1" }}>
       {items.map((item) => (
@@ -10,8 +10,9 @@ const FormComponent = ({ items, changeForm }) => {
           key={item.value.name}
           text={item.value.text}
           name={item.value.name}
-          readonly={item.value.readonly}
+          content={item.value.content}
           changeForm={changeForm}
+          readOnly={readOnly}
         />
       ))}
     </div>
