@@ -2,36 +2,34 @@ import "antd/dist/antd.css";
 import { Tree } from "antd";
 import Form from ".././utilComponenet/formComponent/FormComponent";
 import Modal from "../utilComponenet/modalComponent/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import BASE_URL from "../../utils/Api";
+import axios from "axios";
 
 const treeData = [
   {
     title: "parent 1",
-    key: "0-0",
+    indexNo: "0-0",
+    leaf: "1",
+    isLeaf: true,
     children: [
       {
         title: "parent 1-0",
-        key: "0-0-0",
+        indexNo: "0-0-0",
         children: [
           {
             title: "leaf",
-            key: "0-0-0-0",
-            children: [
-              {
-                title: "leaf",
-                key: "0-0-0-5",
-              },
-            ],
+            indexNo: "0-0-0-0",
           },
           {
             title: "leaf",
-            key: "0-0-0-1",
+            indexNo: "0-0-0-1",
           },
         ],
       },
       {
         title: "parent 1-1",
-        key: "0-0-1",
+        indexNo: "0-0-1",
         children: [
           {
             title: (
@@ -43,7 +41,34 @@ const treeData = [
                 sss
               </span>
             ),
-            key: "0-0-1-0",
+            indexNo: "0-0-1-0",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: "parent 1",
+    indexNo: "0-0",
+    leaf: "1",
+    children: [
+      {
+        title: "parent 1-0",
+        indexNo: "0-0-0",
+        children: [
+          {
+            title: "leaf",
+            indexNo: "0-0-0-0",
+            children: [
+              {
+                title: "leaf",
+                indexNo: "0-0-0-5",
+              },
+            ],
+          },
+          {
+            title: "leaf",
+            indexNo: "0-0-0-1",
           },
         ],
       },
@@ -55,6 +80,34 @@ export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
   const [formData, setFormData] = useState({});
   const [modalFormData, setModalFormData] = useState({});
+  const [treeMenu, setTreeMenu] = useState([]);
+  const [companyNo, setCompanyNo] = useState("1");
+
+  useEffect(() => {
+    axios
+      .get(BASE_URL + "/menu", {
+        params: { companyIdx: companyNo },
+      })
+      .then((response) => {
+        setTreeMenu(response.data);
+      });
+  }, [companyNo]);
+
+  const addMenu = (e) => {
+    let menuFormData = new FormData();
+    const menuItem = { ...formData };
+    for (let item in menuItem) {
+      menuFormData.append(item, menuItem[item]);
+    }
+
+    axios
+      .post(BASE_URL + "/menu", menuFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => console.log(response));
+  };
 
   // 모달 열고 닫기할때 로그 불러오기
   const openModal = () => {
@@ -67,22 +120,32 @@ export default function StoreManageMenu() {
   };
 
   const onSelect = (selectedKeys, info) => {
-    openModal();
-    setModalFormData({ ...modalFormData, menu_idx: selectedKeys[0] });
+    if (info.node.isLeaf) {
+      openModal();
+      setModalFormData({ ...modalFormData, menu_idx: selectedKeys[0] });
+    } else {
+      setFormData({
+        ...formData,
+        company_idx: info.node.companyIdx,
+        upmenu: info.node.indexNo,
+      });
+    }
+
+    console.log(formData);
     console.log("selected", selectedKeys, info);
   };
 
   const changeForm = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(formData);
   };
 
   const changeModalForm = (e) => {
     setModalFormData({ ...modalFormData, [e.target.name]: e.target.value });
-    console.log(modalFormData);
   };
 
   const changeSelect = (e) => {
-    console.log(e.target.value);
+    setCompanyNo(e.target.value);
   };
 
   return (
@@ -93,13 +156,28 @@ export default function StoreManageMenu() {
             <div className="content-title">
               <h3>입점사사용 메뉴 관리</h3>
             </div>
+            <button
+              style={{
+                float: "right",
+                width: "70px",
+                borderRadius: "4px",
+                border: "none",
+                background: "red",
+                height: "30px",
+                lineHeight: "1.5em",
+                textAlign: "center",
+                color: "white",
+                fontSize: "20px",
+                cursor: "pointer",
+              }}
+              onClick={addMenu}
+            >
+              전송
+            </button>
             <div>
-              <select onChanage={changeSelect}>
-                <option value="1">0.1톤</option>
-                <option value="2">0.2톤</option>
-                <option value="3">0.3톤</option>
-                <option value="4">0.4톤</option>
-                <option value="5">0.5톤</option>
+              <select onChange={changeSelect}>
+                <option value="1">단디메카</option>
+                <option value="2">산돌식품</option>
               </select>
             </div>
             <div style={{ display: "flex" }}>
@@ -108,25 +186,70 @@ export default function StoreManageMenu() {
                   defaultExpandedKeys={["0-0-0", "0-0-1"]}
                   defaultSelectedKeys={["0-0"]}
                   onSelect={onSelect}
-                  treeData={treeData}
+                  treeData={treeMenu}
                 />
               </div>
               <div style={{ marginLeft: "100px", width: "100%" }}>
                 <Form
                   items={[
-                    { value: { name: "company_idx", text: "회사코드" } },
-                    { value: { name: "name", text: "메뉴이름" } },
-                    { value: { name: "codes", text: "코드" } },
-                    { value: { name: "upmenu", text: "대메뉴번호" } },
-                    { value: { name: "isregi", text: "isregi" } },
-                    { value: { name: "isexcel", text: "isexcel" } },
+                    {
+                      value: {
+                        name: "company_idx",
+                        text: "회사코드",
+                        readonly: "readonly",
+                        inValue: formData.company_idx,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "name",
+                        text: "메뉴이름",
+                        inValue: formData.name,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "codes",
+                        text: "코드",
+                        inValue: formData.codes,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "upmenu",
+                        text: "대메뉴번호",
+                        readonly: "readonly",
+                        inValue: formData.upmenu,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "isregi",
+                        text: "isregi",
+                        inValue: formData.isregi,
+                      },
+                    },
+                    {
+                      value: {
+                        name: "isexcel",
+                        text: "isexcel",
+                        inValue: formData.isexcel,
+                      },
+                    },
                     {
                       value: {
                         name: "list_column_idx",
                         text: "list_column_idx",
+                        inValue: formData.list_column_idx,
                       },
                     },
-                    { value: { name: "orders", text: "정렬" } },
+                    {
+                      value: {
+                        name: "orders",
+                        text: "정렬",
+                        inValue: formData.orders,
+                      },
+                    },
                   ]}
                   changeForm={changeForm}
                 />

@@ -10,7 +10,9 @@ const FormComponent = ({ items, changeForm }) => {
           key={item.value.name}
           text={item.value.text}
           name={item.value.name}
+          readonly={item.value.readonly}
           changeForm={changeForm}
+          value={item.value.inValue}
         />
       ))}
     </div>
