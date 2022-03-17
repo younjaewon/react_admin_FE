@@ -81,6 +81,10 @@ export default function StoreManageMenu() {
     console.log(modalFormData);
   };
 
+  const changeSelect = (e) => {
+    console.log(e.target.value);
+  };
+
   return (
     <>
       <div className="content-wrap">
@@ -89,8 +93,17 @@ export default function StoreManageMenu() {
             <div className="content-title">
               <h3>입점사사용 메뉴 관리</h3>
             </div>
+            <div>
+              <select onChanage={changeSelect}>
+                <option value="1">0.1톤</option>
+                <option value="2">0.2톤</option>
+                <option value="3">0.3톤</option>
+                <option value="4">0.4톤</option>
+                <option value="5">0.5톤</option>
+              </select>
+            </div>
             <div style={{ display: "flex" }}>
-              <div style={{ width: "10%" }}>
+              <div style={{ width: "10%", border: "1px solid" }}>
                 <Tree
                   defaultExpandedKeys={["0-0-0", "0-0-1"]}
                   defaultSelectedKeys={["0-0"]}

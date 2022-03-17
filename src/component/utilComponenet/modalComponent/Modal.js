@@ -37,6 +37,21 @@ const Modal = ({ open, closeModal, changeModalForm }) => {
                   <td>123</td>
                   <td>123</td>
                 </tr>
+                <tr>
+                  <td>123</td>
+                  <td>123</td>
+                  <td>123</td>
+                </tr>
+                <tr>
+                  <td>123</td>
+                  <td>123</td>
+                  <td>123</td>
+                </tr>
+                <tr>
+                  <td>123</td>
+                  <td>123</td>
+                  <td>123</td>
+                </tr>
               </tbody>
             </table>
           </>
