@@ -1,0 +1,307 @@
+.wrapper {
+  position: relative;
+}
+
+/* 데이커 스타일 */
+
+.react-datepicker__triangle {
+  transform: translate(30px, 0px) !important;
+  z-index: 10 !important;
+}
+
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list
+  li.react-datepicker__time-list-item--selected {
+  background-color: #eb9486 !important;
+}
+.react-datepicker__header {
+  background-color: rgb(255, 128, 128) !important;
+}
+
+.react-datepicker__current-month {
+  color: #fff !important;
+}
+
+.react-datepicker__day-name {
+  color: #fff !important;
+}
+
+.react-datepicker__day--selected:hover {
+  background-color: rgb(255, 166, 166) !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: rgb(185, 13, 13) !important;
+}
+
+/* 보통크기 스위치 */
+#switch {
+  position: absolute;
+
+  appearance: none;
+}
+#switch:checked + .switch_label {
+  background: rgb(185, 13, 13);
+  border: 2px solid rgb(185, 13, 13);
+}
+#switch:checked + .switch_label:hover {
+  background: rgb(139, 9, 9);
+  border: 2px solid rgb(139, 9, 9);
+}
+#switch:checked + .switch_label .onf_btn {
+  left: 33px;
+  background: #fff;
+}
+
+.switch_label {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 58px;
+  height: 28px;
+  background: #fff;
+  border: 2px solid rgb(175, 175, 175);
+  border-radius: 20px;
+  transition: 0.4s;
+}
+.switch_label:hover {
+  background: #efefef;
+}
+.onf_btn {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  border-radius: 20px;
+  background: rgb(175, 175, 175);
+  transition: 0.4s;
+}
+
+/* 작은 스위치 */
+#smlswitch {
+  position: absolute;
+
+  appearance: none;
+}
+#smlswitch:checked + .smlswitch_label {
+  background: rgb(185, 13, 13);
+  border: 2px solid rgb(185, 13, 13);
+}
+#smlswitch:checked + .smlswitch_label:hover {
+  background: rgb(139, 9, 9);
+  border: 2px solid rgb(139, 9, 9);
+}
+#smlswitch:checked + .smlswitch_label .smlonf_btn {
+  left: 21px;
+  background: #fff;
+}
+
+.smlonf_btn {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 20px;
+  background: rgb(175, 175, 175);
+  transition: 0.4s;
+}
+.smlswitch_label {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 35px;
+  height: 17px;
+  background: #fff;
+  border: 2px solid rgb(175, 175, 175);
+  border-radius: 20px;
+  transition: 0.4s;
+}
+.smlswitch_label:hover {
+  background: #efefef;
+}
+
+/* 슬라이더 스타일 */
+.oneslide input[type="range"] {
+  -webkit-appearance: none;
+  background: #efefef;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid rgb(175, 175, 175);
+  height: 10px;
+  width: 300px;
+  cursor: pointer;
+}
+.oneslide input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: rgb(175, 175, 175);
+  cursor: pointer;
+  border: 1px solid rgb(100, 100, 100);
+  border-radius: 0px;
+  width: 10px;
+  height: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: -154px 0 0 150px rgb(139, 9, 9);
+}
+
+/* 별점 스타일 */
+.Stars {
+  display: flex;
+  padding-top: 5px;
+}
+
+svg {
+  color: rgb(175, 175, 175);
+  cursor: pointer;
+}
+
+svg:hover ~ svg {
+  color: rgb(175, 175, 175);
+}
+.redStar {
+  color: rgb(139, 9, 9);
+}
+
+.width {
+  width: 300px;
+}
+
+/* 태그 추가 */
+.react-tagsinput {
+  background-color: #fafafada;
+  border: 1px solid rgb(139, 9, 9);
+  border-radius: 20px;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-top: 5px;
+  cursor: text;
+}
+
+.react-tagsinput--focused {
+  border-color: rgb(139, 9, 9);
+}
+
+.react-tagsinput-tag {
+  background-color: rgb(139, 9, 9);
+  border-radius: 15px;
+  border: 1px solid rgb(139, 9, 9);
+  color: #fff;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a::before {
+  content: " ×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  margin-top: 1px;
+  outline: none;
+  padding: 5px;
+  width: 80px;
+}
+
+/* 드랍존 */
+.filepicker {
+  font-family: sans-serif;
+}
+
+div.filepicker {
+  text-align: center;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  min-height: 60px;
+  border: 2px dashed rgb(143, 143, 143);
+}
+
+/* 드랍존 아이콘 */
+.filepicker-file-icon {
+  position: relative;
+
+  display: inline-block;
+
+  margin: 1.5em 0 2.5em 0;
+  padding-left: 45px;
+
+  color: black;
+}
+.filepicker-file-icon::before {
+  position: absolute;
+  top: -7px;
+  left: 0;
+
+  width: 29px;
+  height: 34px;
+
+  content: "";
+
+  border: solid 2px rgb(139, 9, 9);
+  border-radius: 2px;
+}
+.filepicker-file-icon::after {
+  font-size: 11px;
+  line-height: 1.3;
+
+  position: absolute;
+  top: 9px;
+  left: -4px;
+
+  padding: 0 2px;
+
+  content: "file";
+  content: attr(data-filetype);
+  text-align: right;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  color: #fff;
+  background-color: rgb(139, 9, 9);
+}
+.filepicker-file-icon .fileCorner {
+  position: absolute;
+  top: -7px;
+  left: 22px;
+
+  width: 0;
+  height: 0;
+
+  border-width: 11px 0 0 11px;
+  border-style: solid;
+  border-color: white transparent transparent #920035;
+}
+
+/* datepicker */
+
+.date-name {
+  display: inline-block;
+  text-align: left;
+  width: 60px;
+  margin-left: 30px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
+  color: #222;
+}
