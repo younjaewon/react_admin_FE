@@ -96,10 +96,26 @@ export default function StoreManageMenu() {
 
   const addMenu = (e) => {
     let menuFormData = new FormData();
-    const menuItem = { ...formData };
-    for (let item in menuItem) {
-      menuFormData.append(item, menuItem[item]);
-    }
+    menuFormData.append(
+      "menuFormData",
+      new Blob(
+        [
+          JSON.stringify({
+            companyIdx: formData.company_idx,
+            name: formData.name,
+            codes: formData.codes,
+            upmenu: formData.upmenu,
+            isregi: formData.isregi,
+            isexcel: formData.isexcel,
+            listColumnIdx: formData.list_column_idx,
+            orders: formData.orders,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
 
     axios
       .post(BASE_URL + "/menu", menuFormData, {
@@ -107,7 +123,7 @@ export default function StoreManageMenu() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => console.log(response));
+      .then((response) => setCompanyNo("2"));
   };
 
   const menuColumnGet = async (menuIdx) => {
@@ -125,7 +141,6 @@ export default function StoreManageMenu() {
     for (let item in columnData) {
       modalColumnData.append(item, columnData[item]);
     }
-    debugger;
 
     await axios
       .post(BASE_URL + "menu/column", modalColumnData, {
