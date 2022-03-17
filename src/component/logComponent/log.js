@@ -43,14 +43,10 @@ export default function Home() {
 
   const openModal = (e) => {
     setData(e.item.value)
-    if(modalOpen===false){
-      setModalOpen(true);
-    }
+    setModalOpen(true);
   }
   const modalClose = () => {
-    if(modalOpen===true){
-      setModalOpen(false);
-    }
+    setModalOpen(false);
   }
 
   return (
