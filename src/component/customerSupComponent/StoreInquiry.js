@@ -1,40 +1,38 @@
+import axios from "axios";
+import { useState, useCallback, useEffect } from "react";
 import Grid from ".././utilComponenet/gridComponent/ResizingGridTemplate";
+import BASE_URL from "../../utils/Api";
 
 const gridColumn = [
-  { key: "index_no", width: 100, label: "No", align: "center" },
-  { key: "c_name", width: 150, label: "사업자명", align: "center" },
-  { key: "b_number", width: 150, label: "사업자등록번호", align: "center" },
-  { key: "d_name", width: 100, label: "대표자", align: "center" },
-  { key: "dam_name", width: 100, label: "담당자", align: "center" },
-  { key: "dam_phone", width: 150, label: "담당자연락처", align: "center" },
-];
-
-const gridData = [
-  {
-    value: {
-      index_no: "불출",
-      c_name: "1",
-      b_number: "2022-02-03",
-      b_number: "생산부",
-      d_name: "김생산",
-      dam_name: "A220201153201",
-      dam_phone: "A-001",
-    },
-  },
-  {
-    value: {
-      index_no: "불출1",
-      c_name: "2",
-      b_number: "2022-02-03",
-      b_number: "생산부2",
-      d_name: "김생산2",
-      dam_name: "A220201153202",
-      dam_phone: "A-002",
-    },
-  },
+  { key: "companyIdx", width: 100, label: "No", align: "center" },
+  { key: "subject", width: 150, label: "제목", align: "center" },
+  { key: "regidate", width: 150, label: "날짜", align: "center" },
+  { key: "companyName", width: 150, label: "입점사", align: "center" },
+  { key: "writerName", width: 100, label: "작성자", align: "center" },
+  { key: "isreply", width: 100, label: "답변여부", align: "center" },
 ];
 
 export default function StoreInquiry() {
+  const [gridData, setGridData] = useState([]);
+
+  useEffect(() => {
+    axios.get(BASE_URL + "/systemQna").then((response) => {
+      gridSetData(response.data);
+      console.log("response : ", response);
+    });
+  }, []);
+
+  const gridSetData = (datas) => {
+    const gridArraySet = [];
+    datas.map((data) => {
+      {
+        const value = { value: data };
+        gridArraySet.push(value);
+      }
+    });
+    setGridData(gridArraySet);
+  };
+
   return (
     <>
       <div className="content-wrap">

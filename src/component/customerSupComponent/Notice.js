@@ -4,36 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 import BASE_URL from "../../utils/Api";
 import axios from "axios";
 
-// const gridData = [
-//   {
-//     value: {
-//       index_no: "불출",
-//       c_name: "1",
-//       b_number: "2022-02-03",
-//       b_number: "생산부",
-//       d_name: "김생산",
-//       dam_name: "A220201153201",
-//       dam_phone: "A-001",
-//     },
-//   },
-//   {
-//     value: {
-//       index_no: "불출1",
-//       c_name: "2",
-//       b_number: "2022-02-03",
-//       b_number: "생산부2",
-//       d_name: "김생산2",
-//       dam_name: "A220201153202",
-//       dam_phone: "A-002",
-//     },
-//   },
-// ];
-
 export default function Notice() {
   const [boardData, setBoardData] = useState({
     subject: "",
     memo: "",
-    file: "",
+    files: [{filename:""}],
   });
   const [gridData, setGridData] = useState([]);
   const gridColumn = [
@@ -94,7 +69,7 @@ export default function Notice() {
       )
     );
 
-    newFormData.append("file", boardData.file);
+    newFormData.append("file", boardData.files);
 
     axios
       .post(BASE_URL + "/systemBoard", newFormData, {
@@ -148,7 +123,10 @@ export default function Notice() {
   const deleteBoard = (indexNo) => {
     axios
       .delete(BASE_URL + "/systemBoard", { data: { indexNo } })
-      .then((response) => console.log(response));
+      .then((response) => {
+        getBoard();
+        console.log(response);
+      });
   };
 
   const gridSetData = (datas) => {
@@ -164,7 +142,7 @@ export default function Notice() {
 
   const handleFile = (e) => {
     console.log(e.target);
-    setBoardData({ ...boardData, file: e.target.files[0] });
+    setBoardData({ ...boardData, files: e.target.files[0] });
   };
 
   const handleDelete = (e) => {
@@ -176,7 +154,9 @@ export default function Notice() {
         indexNo: e.item.value.indexNo,
         subject: e.item.value.subject,
         memo: e.item.value.memo,
+        files: e.item.value.files
       });
+      console.log(boardData);
     }
   };
 
@@ -250,6 +230,8 @@ export default function Notice() {
                   value={boardData.memo}
                   style={{ width: "100%", height: "500px" }}
                 />
+                <span>업로드 파일 : </span>
+                {boardData.files[0] && <span>{boardData.files[0].filename}</span>}
                 <input type="file" onChange={handleFile} />
               </div>
             </div>
