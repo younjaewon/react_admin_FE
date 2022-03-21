@@ -2,7 +2,7 @@ import React from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({
+const GridDataModal = ({
   open,
   closeModal,
   changeModalForm,
@@ -17,20 +17,10 @@ const Modal = ({
         <td>{item.orders}</td>
         <td>{item.groupName}</td>
         <td>
-          <button
-            name={item.indexNo}
-            style={{ background: "red" }}
-            onClick={columnDel}
-          >
+          <button style={{background:"red"}} name={item.indexNo} onClick={columnDel}>
             폼 등록
           </button>
-          <button
-            style={{ background: "blue" }}
-            name={item.indexNo}
-            onClick={columnDel}
-          >
-            그리드 등록
-          </button>
+          
         </td>
       </tr>
     ));
@@ -42,7 +32,7 @@ const Modal = ({
         open={open}
         close={closeModal}
         addModalColumn={addModalColumn}
-        header="폼 그룹등록"
+        header="재고등록"
         main={
           <>
             <Form
@@ -81,4 +71,4 @@ const Modal = ({
   );
 };
 
-export default Modal;
+export default GridDataModal;

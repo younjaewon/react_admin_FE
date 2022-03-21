@@ -9,7 +9,7 @@ const Modal = ({ open, closeModal, changeModalForm, addModalColumn, data }) => {
         open={open}
         close={closeModal}
         addModalColumn={addModalColumn}
-        header="재고등록"
+        header="로그정보"
         main={
           <>
             <Form

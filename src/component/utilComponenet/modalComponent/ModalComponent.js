@@ -17,9 +17,9 @@ const ModalComponent = (props) => {
           </header>
           <main>{props.main}</main>
           <footer>
-            <button className="close" onClick={addModalColumn}>
+            {addModalColumn && <button className="close" onClick={addModalColumn}>
               저장
-            </button>
+            </button>}
             <button className="close" onClick={close}>
               닫기
             </button>
