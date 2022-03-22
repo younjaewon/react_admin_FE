@@ -9,6 +9,7 @@ const Modal = ({
   addModalColumn,
   columnList,
   columnDel,
+  handleChildModal,
 }) => {
   const columnListSet = () => {
     const columItem = columnList.map((item) => (
@@ -27,7 +28,7 @@ const Modal = ({
           <button
             style={{ background: "blue" }}
             name={item.indexNo}
-            onClick={columnDel}
+            onClick={handleChildModal.gridOpen.gridOpenModal} // GridDataModal.js Open
           >
             그리드 등록
           </button>

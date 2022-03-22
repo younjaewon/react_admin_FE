@@ -510,3 +510,11 @@ SearchPreview Component
   cursor: pointer;
   margin-right: 5px;
 }
+
+.none-active-ele {
+  background: white;
+}
+
+.active-ele {
+  background: grey;
+}

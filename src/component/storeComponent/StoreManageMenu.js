@@ -16,6 +16,7 @@ export default function StoreManageMenu() {
   const [treeMenu, setTreeMenu] = useState([]); // Tree 메뉴 데이터
   const [companyNo, setCompanyNo] = useState("1"); // select box 회사 코드 데이터
   const [menuIndexNo, setMenuIndexNo] = useState(""); 
+  const [groupIndexNo, setGroupIndexNo] = useState(""); // modal 안에 grid/form Group IndexNo 지정
   const [menuColumnList, setMenuColumnList] = useState([]); // 메뉴 그리드 Get 데이터
   const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
 
@@ -72,16 +73,6 @@ export default function StoreManageMenu() {
       })
       .then((response) => setCompanyNo("2"));
   };
-
-  const menuGridColumnGet = useCallback(()=> {
-    axios
-      .get(BASE_URL + "/menuFormGrid", {
-        params: { menuIdx: menuIndexNo },
-      })
-      .then((response) => {
-        setTreeMenu(response.data);
-      });
-  },[]) 
 
   const menuColumnGet = async () => {
     await axios
@@ -144,7 +135,8 @@ export default function StoreManageMenu() {
     setModalFormData({ menu_idx: "", groupName: "", orders: "" });
   };
 
-  const gridOpenModal = () => {
+  const gridOpenModal = (e) => {
+    setGroupIndexNo(e.target.name);
     setGridModalOpen(true);
   }
 
@@ -297,14 +289,15 @@ export default function StoreManageMenu() {
                 addModalColumn={menuColumnAdd}
                 columnList={menuColumnList}
                 columnDel={menuColumnDel}
+                handleChildModal={{
+                  gridOpen: { gridOpenModal },
+                  gridClose: { gridCloseModal },
+                }}
               />
               <GridDataModal
                 open={gridModalOpen}
                 closeModal={gridCloseModal}
-                changeModalForm={changeModalForm}
-                addModalColumn={menuColumnAdd}
-                columnList={menuColumnList}
-                columnDel={menuColumnDel}
+                groupIndexNo={groupIndexNo}
               />
             </div>
           </div>
