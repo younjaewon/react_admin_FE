@@ -495,3 +495,26 @@ SearchPreview Component
 .start {
   border-top: none;
 }
+
+.mes-button {
+  float: right;
+  width: 70px;
+  border-radius: 4px;
+  border: none;
+  background: red;
+  height: 30px;
+  line-height: 1.5em;
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.none-active-ele {
+  background: white;
+}
+
+.active-ele {
+  background: grey;
+}

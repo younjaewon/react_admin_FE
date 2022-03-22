@@ -106,7 +106,7 @@ export default function Notice() {
       )
     );
 
-    newFormData.append("file", boardData.file);
+    newFormData.append("file", boardData.files);
 
     axios
       .put(BASE_URL + "/systemBoard", newFormData, {

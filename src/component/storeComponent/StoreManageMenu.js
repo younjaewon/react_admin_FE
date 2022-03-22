@@ -2,19 +2,24 @@ import "antd/dist/antd.css";
 import { Tree } from "antd";
 import Form from ".././utilComponenet/formComponent/FormComponent";
 import Modal from "../utilComponenet/modalComponent/Modal";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BASE_URL from "../../utils/Api";
 import axios from "axios";
+import GridDataModal from ".././utilComponenet/modalComponent/GridDataModal";
 
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
-  const [formData, setFormData] = useState({});
-  const [modalFormData, setModalFormData] = useState({});
-  const [treeMenu, setTreeMenu] = useState([]);
-  const [companyNo, setCompanyNo] = useState("1");
-  const [menuIndexNo, setMenuIndexNo] = useState("");
-  const [menuColumnList, setMenuColumnList] = useState([]);
-  const [selectCompany, setSelectCompany] = useState([]);
+  const [formModalOpen, setFormModalOpen] = useState(false); //모달오픈
+  const [gridModalOpen, setGridModalOpen] = useState(false); //모달오픈
+  const [formData, setFormData] = useState({}); // 메뉴 추가 폼 데이터
+  const [modalFormData, setModalFormData] = useState({}); // 메뉴 그리드 Post 데이터
+  const [treeMenu, setTreeMenu] = useState([]); // Tree 메뉴 데이터
+  const [companyNo, setCompanyNo] = useState("1"); // select box 회사 코드 데이터
+  const [menuIndexNo, setMenuIndexNo] = useState(""); 
+  const [groupIndexNo, setGroupIndexNo] = useState(""); // modal 안에 grid/form Group IndexNo 지정
+  const [menuColumnList, setMenuColumnList] = useState([]); // 메뉴 그리드 Get 데이터
+  const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
+
 
   useEffect(() => {
     axios
@@ -69,9 +74,9 @@ export default function StoreManageMenu() {
       .then((response) => setCompanyNo("2"));
   };
 
-  const menuColumnGet = async (menuIdx) => {
+  const menuColumnGet = async () => {
     await axios
-      .get(BASE_URL + "/menu/column", { params: { menu_idx: menuIdx } })
+      .get(BASE_URL + "/menuFormGroup", { params: { menuIdx: menuIndexNo } })
       .then((response) => {
         console.log(response.data);
         setMenuColumnList(response.data);
@@ -81,14 +86,17 @@ export default function StoreManageMenu() {
   const menuColumnAdd = async () => {
     let newFormData = new FormData();
 
+    console.log(modalFormData);
+
     newFormData.append(
       "newFormData",
       new Blob(
         [
           JSON.stringify({
             menuIdx: modalFormData.menu_idx,
-            label: modalFormData.label,
+            groupName: modalFormData.groupName,
             orders: modalFormData.orders,
+            groupShow: modalFormData.groupShow,
           }),
         ],
         {
@@ -98,47 +106,55 @@ export default function StoreManageMenu() {
     );
 
     await axios
-      .post(BASE_URL + "/menu/column", newFormData, {
+      .post(BASE_URL + "/menuFormGroup", newFormData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
-        menuColumnGet(modalFormData.menu_idx);
-        setModalFormData({ ...modalFormData, label: "", orders: "" });
+        menuColumnGet();
       });
   };
 
   const menuColumnDel = (e) => {
     const indexNo = e.target.name;
-    axios
-      .delete(BASE_URL + "/menu/column", { data: { indexNo } })
-      .then((response) => {
-        console.log(response);
-      });
+    debugger
+    // axios
+    //   .delete(BASE_URL + "/menu/column", { data: { indexNo } })
+    //   .then((response) => {
+    //     console.log(response);
+    //   });
   };
 
-  // 모달 열고 닫기할때 로그 불러오기
   const openModal = () => {
     setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setModalFormData({ menu_idx: "", label: "", orders: "" });
+    setModalFormData({ menu_idx: "", groupName: "", orders: "" });
   };
+
+  const gridOpenModal = (e) => {
+    setGroupIndexNo(e.target.name);
+    setGridModalOpen(true);
+  }
+
+  const gridCloseModal = () => {
+    setGridModalOpen(false);
+  }
 
   const onSelect = (selectedKeys, info) => {
     if (info.node.isLeaf) {
-      menuColumnGet(selectedKeys[0]);
       setModalFormData({ ...modalFormData, menu_idx: selectedKeys[0] });
-      openModal();
+      setMenuIndexNo(info.node.indexNo);
     } else {
+      setMenuIndexNo(info.node.indexNo);
       setFormData({
         ...formData,
         company_idx: info.node.companyIdx,
         upmenu: info.node.indexNo,
-      });
+      }); // input Form에 company, upmenu 넘버 세팅
     }
     console.log("selected", selectedKeys, info);
   };
@@ -155,6 +171,21 @@ export default function StoreManageMenu() {
     setCompanyNo(e.target.value);
   };
 
+  const addFormGroup = (e) => {
+    menuColumnGet();
+    openModal();
+    console.log(menuIndexNo);
+  }
+
+  const addGridData = (e) => {
+    gridOpenModal();
+
+  }
+
+  const addFormData = (e) => {
+    console.log(menuIndexNo);
+  }
+
   return (
     <>
       <div className="content-wrap">
@@ -163,23 +194,17 @@ export default function StoreManageMenu() {
             <div className="content-title">
               <h3>입점사사용 메뉴 관리</h3>
             </div>
-            <button
-              style={{
-                float: "right",
-                width: "70px",
-                borderRadius: "4px",
-                border: "none",
-                background: "red",
-                height: "30px",
-                lineHeight: "1.5em",
-                textAlign: "center",
-                color: "white",
-                fontSize: "20px",
-                cursor: "pointer",
-              }}
-              onClick={addMenu}
-            >
+            <button className="mes-button" onClick={addMenu}>
               전송
+            </button>
+            <button className="mes-button" onClick={addFormGroup}>
+              폼 그룹 데이터
+            </button>
+            {/* <button className="mes-button" onClick={addFormData}>
+              폼 데이터
+            </button> */}
+            <button className="mes-button" onClick={addGridData}>
+              그리드 데이터
             </button>
             <div>
               <select onChange={changeSelect}>
@@ -190,7 +215,7 @@ export default function StoreManageMenu() {
                 ))}
               </select>
             </div>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", marginTop: "10px" }}>
               <div style={{ width: "10%", border: "1px solid" }}>
                 <Tree
                   defaultExpandedKeys={["0-0-0", "0-0-1"]}
@@ -264,6 +289,15 @@ export default function StoreManageMenu() {
                 addModalColumn={menuColumnAdd}
                 columnList={menuColumnList}
                 columnDel={menuColumnDel}
+                handleChildModal={{
+                  gridOpen: { gridOpenModal },
+                  gridClose: { gridCloseModal },
+                }}
+              />
+              <GridDataModal
+                open={gridModalOpen}
+                closeModal={gridCloseModal}
+                groupIndexNo={groupIndexNo}
               />
             </div>
           </div>

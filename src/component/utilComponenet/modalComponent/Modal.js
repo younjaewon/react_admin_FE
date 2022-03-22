@@ -9,16 +9,28 @@ const Modal = ({
   addModalColumn,
   columnList,
   columnDel,
+  handleChildModal,
 }) => {
   const columnListSet = () => {
     const columItem = columnList.map((item) => (
       <tr key={item.indexNo}>
         <td>{item.indexNo}</td>
         <td>{item.orders}</td>
-        <td>{item.label}</td>
+        <td>{item.groupName}</td>
         <td>
-          <button name={item.indexNo} onClick={columnDel}>
-            삭제
+          <button
+            name={item.indexNo}
+            style={{ background: "red" }}
+            onClick={columnDel}
+          >
+            폼 등록
+          </button>
+          <button
+            style={{ background: "blue" }}
+            name={item.indexNo}
+            onClick={handleChildModal.gridOpen.gridOpenModal} // GridDataModal.js Open
+          >
+            그리드 등록
           </button>
         </td>
       </tr>
@@ -31,13 +43,14 @@ const Modal = ({
         open={open}
         close={closeModal}
         addModalColumn={addModalColumn}
-        header="재고등록"
+        header="폼 그룹등록"
         main={
           <>
             <Form
               items={[
-                { value: { name: "label", text: "컬럼명" } },
+                { value: { name: "groupName", text: "그룹이름" } },
                 { value: { name: "orders", text: "정렬순서" } },
+                { value: { name: "groupShow", text: "형식(form/grid)" } },
               ]}
               changeForm={changeModalForm}
             />
@@ -53,7 +66,7 @@ const Modal = ({
                     <label>순서</label>
                   </td>
                   <td>
-                    <label>컬럼명</label>
+                    <label>그룹이름</label>
                   </td>
                   <td>
                     <label>버튼</label>

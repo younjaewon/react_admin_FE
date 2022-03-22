@@ -2,6 +2,7 @@ import React from "react";
 import FormItem from "./FormItem";
 
 const FormComponent = ({ items, changeForm }) => {
+  debugger
   return (
     <div style={{ flex: "1" }}>
       {items.map((item) => (
