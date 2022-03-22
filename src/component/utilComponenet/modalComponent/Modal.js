@@ -19,9 +19,9 @@ const Modal = ({
         <td>{item.groupName}</td>
         <td>
           <button
-            name={item.indexNo}
             style={{ background: "red" }}
-            onClick={columnDel}
+            name={item.indexNo}
+            onClick={handleChildModal.formOpen.formOpenModal} // FormDataModal.js Open
           >
             폼 등록
           </button>

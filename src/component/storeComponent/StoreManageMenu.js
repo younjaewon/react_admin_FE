@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import BASE_URL from "../../utils/Api";
 import axios from "axios";
 import GridDataModal from ".././utilComponenet/modalComponent/GridDataModal";
+import FormDataModal from "../utilComponenet/modalComponent/FormDataModal";
 
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
@@ -142,6 +143,15 @@ export default function StoreManageMenu() {
 
   const gridCloseModal = () => {
     setGridModalOpen(false);
+  }
+
+  const formOpenModal = (e) => {
+    setGroupIndexNo(e.target.name);
+    setFormModalOpen(true);
+  }
+
+  const formCloseModal = () => {
+    setFormModalOpen(false);
   }
 
   const onSelect = (selectedKeys, info) => {
@@ -291,12 +301,17 @@ export default function StoreManageMenu() {
                 columnDel={menuColumnDel}
                 handleChildModal={{
                   gridOpen: { gridOpenModal },
-                  gridClose: { gridCloseModal },
+                  formOpen: { formOpenModal },
                 }}
               />
               <GridDataModal
                 open={gridModalOpen}
                 closeModal={gridCloseModal}
+                groupIndexNo={groupIndexNo}
+              />
+              <FormDataModal
+                open={formModalOpen}
+                closeModal={formCloseModal}
                 groupIndexNo={groupIndexNo}
               />
             </div>
