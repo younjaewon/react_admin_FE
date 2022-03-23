@@ -3,6 +3,7 @@ import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 import axios from "axios";
 import BASE_URL from "../../../utils/Api";
+import Select from "../formComponent/SelectComponent";
 
 const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
   const [formData, setFormData] = useState([]);
@@ -15,6 +16,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
     gonext: "",
     searchfield: "",
     orders: "",
+    predatatype: "",
   });
   const [re, setRe] = useState(true);
   const indexNo = useRef("");
@@ -54,6 +56,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             showtype: menuFormData.showtype,
             dataclass: menuFormData.dataclass,
             predata: menuFormData.predata,
+            predatatype: menuFormData.predatatype,
             gonext: menuFormData.gonext,
             searchfield: menuFormData.searchfield,
             orders: menuFormData.orders,
@@ -84,6 +87,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             gonext: "",
             searchfield: "",
             orders: "",
+            predatatype: "",
           });
           setRe(!re);
         }
@@ -103,6 +107,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
         gonext: "",
         searchfield: "",
         orders: "",
+        predatatype: "",
       });
       setRe(!re);
     });
@@ -120,7 +125,6 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
     const updateArrayForm = domArray.map((item, index) => {
       if (undefined == domArray[index].childNodes[0]) {
         return "";
-        
       }
       return domArray[index].childNodes[0];
     });
@@ -214,16 +218,16 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
                 },
                 {
                   value: {
-                    name: "gonext",
-                    text: "gonext",
-                    content: menuFormData.gonext,
+                    name: "predatatype",
+                    text: "predatatype",
+                    content: menuFormData.predatatype,
                   },
                 },
                 {
                   value: {
-                    name: "searchfield",
-                    text: "searchfield",
-                    content: menuFormData.searchfield,
+                    name: "gonext",
+                    text: "gonext",
+                    content: menuFormData.gonext,
                   },
                 },
                 {
@@ -233,6 +237,14 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
                     content: menuFormData.orders,
                   },
                 },
+              ]}
+              changeForm={changeForm}
+            />
+            <Select
+              name="searchfield"
+              items={[
+                { name: "N", value: "" },
+                { name: "Y", value: "Y" },
               ]}
               changeForm={changeForm}
             />

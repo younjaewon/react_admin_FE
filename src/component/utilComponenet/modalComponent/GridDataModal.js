@@ -3,6 +3,7 @@ import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 import axios from "axios";
 import BASE_URL from "../../../utils/Api";
+import Select from "../formComponent/SelectComponent";
 
 const GridDataModal = ({
   open,
@@ -34,6 +35,7 @@ const GridDataModal = ({
 
   const deleteMenuGrid = (e) => {
     axios.delete(BASE_URL + "/menuFormGrid", { data: { indexNo: e.target.name } }).then((response) => {
+      setRe(!re);
       console.log(response);
     });
   }
@@ -173,13 +175,6 @@ const GridDataModal = ({
                 },
                 {
                   value: {
-                    name: "align",
-                    text: "align",
-                    content: formDataGrid.align,
-                  },
-                },
-                {
-                  value: {
                     name: "orders",
                     text: "orders",
                     content: formDataGrid.orders,
@@ -195,6 +190,17 @@ const GridDataModal = ({
               ]}
               changeForm={changeForm}
             />
+            <Select
+              name="align"
+              items={[
+                { name: "선택", value: "" },
+                { name: "center", value: "center" },
+                { name: "left", value: "left" },
+                { name: "right", value: "right" },
+              ]}
+              changeForm={changeForm}
+            />
+
             <div style={{ overflow: "auto" }}>
               <table
                 style={{

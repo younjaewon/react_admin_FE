@@ -63,14 +63,6 @@ export default function HOMESIDEMENU() {
             link="/storeManageMenu"
             name="입점사사용 메뉴 관리"
           ></SideMenuList>
-          <SideMenuList
-            link="/storeFormData"
-            name="입점사메뉴 폼 데이터 등록"
-          ></SideMenuList>
-          <SideMenuList
-            link="/storeGridData"
-            name="입점사메뉴 그리드 데이터 등록"
-          ></SideMenuList>
         </ul>
       </div>
     </>

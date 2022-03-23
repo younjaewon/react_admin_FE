@@ -119,7 +119,6 @@ export default function StoreManageMenu() {
 
   const menuColumnDel = (e) => {
     const indexNo = e.target.name;
-    debugger
     // axios
     //   .delete(BASE_URL + "/menu/column", { data: { indexNo } })
     //   .then((response) => {
@@ -209,12 +208,6 @@ export default function StoreManageMenu() {
             </button>
             <button className="mes-button" onClick={addFormGroup}>
               폼 그룹 데이터
-            </button>
-            {/* <button className="mes-button" onClick={addFormData}>
-              폼 데이터
-            </button> */}
-            <button className="mes-button" onClick={addGridData}>
-              그리드 데이터
             </button>
             <div>
               <select onChange={changeSelect}>
