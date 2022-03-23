@@ -1,6 +1,8 @@
 import React from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
+import Select from "../formComponent/SelectComponent";
+
 
 const Modal = ({
   open,
@@ -19,14 +21,24 @@ const Modal = ({
         <td>{item.groupName}</td>
         <td>
           <button
+            style={{
+              background: "#f94c4c",
+              borderRadius: "5px",
+              margin: "1px",
+              color: "white",
+            }}
             name={item.indexNo}
-            style={{ background: "red" }}
-            onClick={columnDel}
+            onClick={handleChildModal.formOpen.formOpenModal} // FormDataModal.js Open
           >
             폼 등록
           </button>
           <button
-            style={{ background: "blue" }}
+            style={{
+              background: "#6c6cff",
+              borderRadius: "5px",
+              margin: "1px",
+              color: "white",
+            }}
             name={item.indexNo}
             onClick={handleChildModal.gridOpen.gridOpenModal} // GridDataModal.js Open
           >
@@ -50,10 +62,10 @@ const Modal = ({
               items={[
                 { value: { name: "groupName", text: "그룹이름" } },
                 { value: { name: "orders", text: "정렬순서" } },
-                { value: { name: "groupShow", text: "형식(form/grid)" } },
               ]}
               changeForm={changeModalForm}
             />
+            <Select name="groupShow" items={[{ name: "form", value: "form" },{name:"grid", value:"grid"}]} changeForm={changeModalForm} />
             <table
               style={{ textAlign: "center", width: "100%", marginTop: "10px" }}
             >

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import BASE_URL from "../../utils/Api";
 import axios from "axios";
 import GridDataModal from ".././utilComponenet/modalComponent/GridDataModal";
+import FormDataModal from "../utilComponenet/modalComponent/FormDataModal";
 
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
@@ -118,7 +119,6 @@ export default function StoreManageMenu() {
 
   const menuColumnDel = (e) => {
     const indexNo = e.target.name;
-    debugger
     // axios
     //   .delete(BASE_URL + "/menu/column", { data: { indexNo } })
     //   .then((response) => {
@@ -142,6 +142,15 @@ export default function StoreManageMenu() {
 
   const gridCloseModal = () => {
     setGridModalOpen(false);
+  }
+
+  const formOpenModal = (e) => {
+    setGroupIndexNo(e.target.name);
+    setFormModalOpen(true);
+  }
+
+  const formCloseModal = () => {
+    setFormModalOpen(false);
   }
 
   const onSelect = (selectedKeys, info) => {
@@ -199,12 +208,6 @@ export default function StoreManageMenu() {
             </button>
             <button className="mes-button" onClick={addFormGroup}>
               폼 그룹 데이터
-            </button>
-            {/* <button className="mes-button" onClick={addFormData}>
-              폼 데이터
-            </button> */}
-            <button className="mes-button" onClick={addGridData}>
-              그리드 데이터
             </button>
             <div>
               <select onChange={changeSelect}>
@@ -291,12 +294,17 @@ export default function StoreManageMenu() {
                 columnDel={menuColumnDel}
                 handleChildModal={{
                   gridOpen: { gridOpenModal },
-                  gridClose: { gridCloseModal },
+                  formOpen: { formOpenModal },
                 }}
               />
               <GridDataModal
                 open={gridModalOpen}
                 closeModal={gridCloseModal}
+                groupIndexNo={groupIndexNo}
+              />
+              <FormDataModal
+                open={formModalOpen}
+                closeModal={formCloseModal}
                 groupIndexNo={groupIndexNo}
               />
             </div>
