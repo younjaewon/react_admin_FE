@@ -3,7 +3,7 @@ import { useEffect,useState } from "react";
 import axios from "axios";
 import Grid from ".././utilComponenet/gridComponent/ResizingGridTemplate";
 import FirstModal from "../utilComponenet/modalComponent/SearchGridModal"
-import SecundModal from "../utilComponenet/modalComponent/SndModal"
+import SecondModal from "../utilComponenet/modalComponent/SndModal"
 
 const gridColumn = [
     { key: "gridname", width: 150, label: "그리드명", align: "center" },
@@ -27,13 +27,14 @@ const gridColumn2 = [
     { key: "orders", width: 150, label: "순서", align: "center" },
 ];
 export default function StoreManageMenu(){
-    const [companyNo, setCompanyNo] = useState("2"); // select box 회사 코드 데이터
+    const [companyNo, setCompanyNo] = useState(1); // select box 회사 코드 데이터
     const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
     const [gridData, setGridData] = useState([]);
     const [gridData2, setGridData2] = useState([]);
     const [formData, setFormData] = useState({});
     const [fstModalOpen, setFstModalOpen] = useState(false);
     const [sndModalOpen, setSndModalOpen] = useState(false);
+    const [grid1ItemSelected, setGrid1ItemSelected] = useState({});
 
     const gridSetData = (datas) => {
         const gridArraySet = [];
@@ -121,7 +122,11 @@ export default function StoreManageMenu(){
         setFstModalOpen(true);
     }
     const handelSndModalOpen = () => {
-        setSndModalOpen(true);
+        if(grid1ItemSelected){
+            setSndModalOpen(true);
+        }else{
+            console.log("확인11");
+        }
     }
     const handelModalClose = () => {
         setFstModalOpen(false);
@@ -132,6 +137,7 @@ export default function StoreManageMenu(){
     const clickItem = (e) => {
         if(e.item){
             var data = e.item.value;
+            setGrid1ItemSelected({...data});
             axios.get(BASE_URL + "/searchGridColumn",{
                 params: {gridIdx:data.indexNo},
             })
@@ -146,6 +152,7 @@ export default function StoreManageMenu(){
             console.log(e.item.value);
         }
     }
+
     return (
         <>
             <div className="content-wrap">
@@ -155,7 +162,7 @@ export default function StoreManageMenu(){
                             <h3>입점사사용 모달 관리</h3>
                         </div>
                         <div>
-                            <select onChange={changeSelect} style={{width:"150px",height:"100px"}}>
+                            <select onChange={changeSelect} style={{width:"150px",height:"45px",fontSize:"20px"}}>
                                 {selectCompany.map(item => 
                                     <option key={item.indexNo} value={item.indexNo}>
                                         {item.cname}
@@ -182,7 +189,7 @@ export default function StoreManageMenu(){
                                     onClick={clickItem2}
                                 >
                                 </Grid>
-                                <SecundModal open={sndModalOpen} closeModal={handelModalClose}></SecundModal>
+                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} addModalColumn={handleAddColumn2} data={grid1ItemSelected}></SecondModal>
                             </div>
                         </div>
                     </div>
