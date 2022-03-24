@@ -31,6 +31,7 @@ export default function StoreManageMenu(){
     const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
     const [gridData, setGridData] = useState([]);
     const [gridData2, setGridData2] = useState([]);
+    const [formData, setFormData] = useState({});
     const [fstModalOpen, setFstModalOpen] = useState(false);
     const [sndModalOpen, setSndModalOpen] = useState(false);
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
@@ -72,18 +73,56 @@ export default function StoreManageMenu(){
             params: {companyIdx: companyNo},
         })
         .then((response) => {
+            console.log(response);
             gridSetData(response.data);
         })
         .catch((err) => {
             console.log(err);
         });
     },[companyNo]);
-    const handelAddColumn = (e) => {
-        console.log("aaaaa");
+
+    //등록
+    const handelAddColumn = () => {
+        console.log(formData);
+        const createColumn = window.confirm("create?")
+
+        const newFormData = new FormData;
+        newFormData.append(
+            "newFormData",
+            new Blob([JSON.stringify(formData)], {type: "application/json"})
+        );
+
+        if(createColumn){
+        axios
+          .post(BASE_URL + "/searchGrid", newFormData, {
+            headers: { "content-type":"multipart/form-data" },
+        }).then((response) => {
+            console.log(response);
+            console.log("create");
+            
+        }).catch((error) => {
+            console.log(error);
+        });
+        setFstModalOpen(false);
+        }else{console.log(formData);}
     }
+
+    //입력 데이터
+    const changeForm = (e) => {
+        setFormData({ companyIdx: companyNo, ...formData, [e.target.name]: e.target.value });
+        console.log(formData)
+    };
+
     const changeSelect = (e) => {
+        console.log(e.target)
         setCompanyNo(e.target.value);
       };
+    
+    const handleAddColumn2 = () => {
+
+    }
+
+    //모달
     const handelFstModalOpen = () => {
         setFstModalOpen(true);
     }
@@ -145,7 +184,7 @@ export default function StoreManageMenu(){
                                     gridData={gridData}
                                     onClick={clickItem}
                                 ></Grid>
-                                <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn}></FirstModal>
+                                <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn} changeModalForm={changeForm} ></FirstModal>
                             </div>
                             <div style={{width:"50%",border:"1px solid"}}>
                                 <button onClick={handelSndModalOpen}>등록</button>
