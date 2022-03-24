@@ -1,26 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({ open, closeModal, changeModalForm, addModalColumn, data }) => {
+const Modal = ({ open, closeModal, addModalColumn, data }) => {
+  const companyIdx = data.companyIdx;
+  const [formData,setFormData] = useState({companyIdx});
+  const changeModalForm = (e) => {
+    setFormData({...formData,[e.target.name]: e.target.value});
+  }
   return (
     <div>
       <ModalComponent
         open={open}
         close={closeModal}
         addModalColumn={addModalColumn}
-        header="secund modal"
+        header="Second modal"
         main={
           <>
             <Form
               items={[
-                { value: { name: "comCd", text: "회사코드"}},
-                { value: { name: "userName", text: "유저명"}},
-                { value: { name: "logDay", text: "발생일"}},
-                { value: { name: "logTime", text: "발생시"}},
-                { value: { name: "message", text: "예외 메세지"}},
-                { value: { name: "requestUrl", text: "요청 URL"}},
-                { value: { name: "sendDate", text: "요청일시"}},
+                { value: { name: "label", text: "컬럼명"}},
+                { value: { name: "datakey", text: "데이터키"}},
+                { value: { name: "width", text: "길이"}},
+                { value: { name: "align", text: "정렬"}},
+                { value: { name: "orders", text: "순서"}},
               ]}
               changeForm={changeModalForm}
               readOnly={true}
