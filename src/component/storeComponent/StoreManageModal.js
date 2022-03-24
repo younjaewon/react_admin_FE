@@ -27,6 +27,7 @@ const gridColumn2 = [
     { key: "orders", width: 150, label: "순서", align: "center" },
 ];
 export default function StoreManageMenu(){
+    const [re, setRe] = useState(0);
     const [companyNo, setCompanyNo] = useState(1); // select box 회사 코드 데이터
     const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
     const [gridData, setGridData] = useState([]);
@@ -79,11 +80,16 @@ export default function StoreManageMenu(){
         .catch((err) => {
             console.log(err);
         });
-    },[companyNo]);
+    },[companyNo, re]);
 
     //등록
     const handelAddColumn = () => {
         console.log(formData);
+        if(re===1){
+            setRe(0);
+        }else if(re===0){
+            setRe(1);
+        }
         const createColumn = window.confirm("create?")
 
         const newFormData = new FormData;
@@ -92,7 +98,7 @@ export default function StoreManageMenu(){
             new Blob([JSON.stringify(formData)], {type: "application/json"})
         );
 
-        if(createColumn){
+        if(createColumn){            
         axios
           .post(BASE_URL + "/searchGrid", newFormData, {
             headers: { "content-type":"multipart/form-data" },
@@ -179,12 +185,13 @@ export default function StoreManageMenu(){
                         <div style={{display:"flex",marginTop:"10px"}}>
                             <div style={{width:"50%",border:"1px solid"}}>
                                 <button onClick={handelFstModalOpen} >등록</button>
+                                <button >수정</button>
                                 <Grid 
                                     gridColumn={gridColumn}
                                     gridData={gridData}
                                     onClick={clickItem}
                                 ></Grid>
-                                <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn} changeModalForm={changeForm} ></FirstModal>
+                                <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn} changeModalForm={changeForm}  ></FirstModal>
                             </div>
                             <div style={{width:"50%",border:"1px solid"}}>
                                 <button onClick={handelSndModalOpen}>등록</button>
