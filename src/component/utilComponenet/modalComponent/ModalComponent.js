@@ -22,11 +22,9 @@ const ModalComponent = (props) => {
                 수정
               </button>
             )}
-            {addModalColumn && (
-              <button className="close" onClick={addModalColumn}>
+            <button className="close" onClick={addModalColumn}>
                 등록
-              </button>
-            )}
+            </button>
             <button className="close" onClick={close}>
               닫기
             </button>
