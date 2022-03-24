@@ -24,7 +24,7 @@ const gridColumn2 = [
     },
     { key: "width", width: 150, label: "길이", align: "center" },
     { key: "align", width: 150, label: "정렬", align: "center" },
-    { key: "orders", width: 150, label: "순서", align: "center" },
+    { key: "orders", width: 150, label: "순서", align: "center" }
 ];
 export default function StoreManageMenu(){
     const [companyNo, setCompanyNo] = useState(1); // select box 회사 코드 데이터
@@ -34,6 +34,7 @@ export default function StoreManageMenu(){
     const [formData, setFormData] = useState({});
     const [fstModalOpen, setFstModalOpen] = useState(false);
     const [sndModalOpen, setSndModalOpen] = useState(false);
+    const [grid1Item,setGrid1Item] = useState({});
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
 
     const gridSetData = (datas) => {
@@ -117,10 +118,6 @@ export default function StoreManageMenu(){
         console.log(e.target)
         setCompanyNo(e.target.value);
       };
-    
-    const handleAddColumn2 = () => {
-
-    }
 
     //모달
     const handelFstModalOpen = () => {
@@ -130,9 +127,11 @@ export default function StoreManageMenu(){
         if(grid1ItemSelected){
             setSndModalOpen(true);
         }else{
-            console.log("확인11");
+            alert("그리드를 선택하세요");
+            return false;
         }
     }
+
     const handelModalClose = () => {
         setFstModalOpen(false);
         setSndModalOpen(false);
@@ -143,6 +142,7 @@ export default function StoreManageMenu(){
         if(e.item){
             var data = e.item.value;
             setGrid1ItemSelected(true);
+            setGrid1Item(data);
             axios.get(BASE_URL + "/searchGridColumn",{
                 params: {gridIdx:data.indexNo},
             })
@@ -177,7 +177,7 @@ export default function StoreManageMenu(){
                             
                         </div>
                         <div style={{display:"flex",marginTop:"10px"}}>
-                            <div style={{width:"50%",border:"1px solid"}}>
+                            <div style={{width:"50%"}}>
                                 <button onClick={handelFstModalOpen} >등록</button>
                                 <Grid 
                                     gridColumn={gridColumn}
@@ -186,15 +186,20 @@ export default function StoreManageMenu(){
                                 ></Grid>
                                 <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn} changeModalForm={changeForm} ></FirstModal>
                             </div>
-                            <div style={{width:"50%",border:"1px solid"}}>
-                                <button onClick={handelSndModalOpen}>등록</button>
-                                <Grid
-                                    gridColumn={gridColumn2}
-                                    gridData={gridData2}
-                                    onClick={clickItem2}
-                                >
-                                </Grid>
-                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={companyNo}></SecondModal>
+                            <div style={{width:"50%"}}>
+                                <div style={{textAlign:"right"}}>
+                                    <button onClick={handelSndModalOpen}>등록</button>
+                                    <button onClick={handelSndModalOpen}>수정</button>
+                                </div>
+                                <div>
+                                    <Grid
+                                        gridColumn={gridColumn2}
+                                        gridData={gridData2}
+                                        onClick={clickItem2}
+                                    >
+                                    </Grid>
+                                </div>
+                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={grid1Item}></SecondModal>
                             </div>
                         </div>
                     </div>
