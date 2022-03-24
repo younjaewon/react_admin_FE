@@ -33,7 +33,7 @@ export default function StoreManageMenu(){
     const [gridData2, setGridData2] = useState([]);
     const [fstModalOpen, setFstModalOpen] = useState(false);
     const [sndModalOpen, setSndModalOpen] = useState(false);
-    const [grid1ItemSelected, setGrid1ItemSelected] = useState({});
+    const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
 
     const gridSetData = (datas) => {
         const gridArraySet = [];
@@ -81,9 +81,6 @@ export default function StoreManageMenu(){
     const handelAddColumn = (e) => {
         console.log("aaaaa");
     }
-    const handleAddColumn2 = (e) => {
-        console.log("bbbb");
-    }
     const changeSelect = (e) => {
         setCompanyNo(e.target.value);
       };
@@ -106,7 +103,7 @@ export default function StoreManageMenu(){
     const clickItem = (e) => {
         if(e.item){
             var data = e.item.value;
-            setGrid1ItemSelected({...data});
+            setGrid1ItemSelected(true);
             axios.get(BASE_URL + "/searchGridColumn",{
                 params: {gridIdx:data.indexNo},
             })
@@ -158,7 +155,7 @@ export default function StoreManageMenu(){
                                     onClick={clickItem2}
                                 >
                                 </Grid>
-                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} addModalColumn={handleAddColumn2} data={grid1ItemSelected}></SecondModal>
+                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={companyNo}></SecondModal>
                             </div>
                         </div>
                     </div>
