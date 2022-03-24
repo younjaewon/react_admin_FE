@@ -10,10 +10,24 @@ const gridColumn = [
             // return args.value;
         }},
 ];
+
+const gridColumn2 = [
+    { key: "label", width: 150, label: "컬럼명", align: "center" },
+    { key: "datakey", width: 150, label: "데이터키", align: "center",
+    formatter: function(args){
+        return args.value === "" ? <span>&nbsp;</span> : args.value; 
+        // return args.value;
+    }
+    },
+    { key: "width", width: 150, label: "길이", align: "center" },
+    { key: "align", width: 150, label: "정렬", align: "center" },
+    { key: "orders", width: 150, label: "순서", align: "center" },
+];
 export default function StoreManageMenu(){
     const [companyNo, setCompanyNo] = useState("1"); // select box 회사 코드 데이터
     const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
     const [gridData, setGridData] = useState([]);
+    const [gridData2, setGridData2] = useState([]);
 
     const gridSetData = (datas) => {
         const gridArraySet = [];
@@ -24,6 +38,16 @@ export default function StoreManageMenu(){
           }
         });
         setGridData(gridArraySet);
+      };
+      const gridSetData2 = (datas) => {
+        const gridArraySet = [];
+        datas.map((data) => {
+          {
+            const value = { value: data };
+            gridArraySet.push(value);
+          }
+        });
+        setGridData2(gridArraySet);
       };
 
     useEffect(() => {
@@ -42,7 +66,6 @@ export default function StoreManageMenu(){
             params: {companyIdx: companyNo},
         })
         .then((response) => {
-            console.log(response.data);
             gridSetData(response.data);
         })
         .catch((err) => {
@@ -54,6 +77,23 @@ export default function StoreManageMenu(){
         setCompanyNo(e.target.value);
       };
 
+    const clickItem = (e) => {
+        if(e.item){
+            var data = e.item.value;
+            axios.get(BASE_URL + "/searchGridColumn",{
+                params: {gridIdx:data.indexNo},
+            })
+            .then((response) => {
+                gridSetData2(response.data);
+            })
+            .catch(err => console.log(err));
+        }
+    }
+    const clickItem2 = (e) => {
+        if(e.item){
+            console.log(e.item.value);
+        }
+    }
     return (
         <>
             <div className="content-wrap">
@@ -63,7 +103,7 @@ export default function StoreManageMenu(){
                             <h3>입점사사용 모달 관리</h3>
                         </div>
                         <div>
-                            <select onChange={changeSelect}>
+                            <select onChange={changeSelect} style={{width:"150px",height:"100px"}}>
                                 {selectCompany.map(item => 
                                     <option key={item.indexNo} value={item.indexNo}>
                                         {item.cname}
@@ -76,9 +116,17 @@ export default function StoreManageMenu(){
                                 <Grid 
                                     gridColumn={gridColumn}
                                     gridData={gridData}
+                                    onClick={clickItem}
                                 ></Grid>
                             </div>
-                            <div style={{width:"50%",border:"1px solid"}}>2</div>
+                            <div style={{width:"50%",border:"1px solid"}}>
+                                <Grid
+                                    gridColumn={gridColumn2}
+                                    gridData={gridData2}
+                                    onClick={clickItem2}
+                                >
+                                </Grid>
+                            </div>
                         </div>
                     </div>
                 </div>
