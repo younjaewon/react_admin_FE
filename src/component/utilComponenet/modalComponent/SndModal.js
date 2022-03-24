@@ -9,36 +9,36 @@ import BASE_URL from "../../../utils/Api";
 const Modal = ({ open, closeModal, data }) => {
   const [formData,setFormData] = useState({});
   const changeModalForm = (e) => {
-    setFormData({...formData,[e.target.name]: e.target.value});
+    const gridIdx = data.indexNo;
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+      gridIdx:gridIdx,
+      haveChild:"N"});
   }
   const addModalColumn = (e) => {
     let newFormData = new FormData();
-    let addData = {
-      companyIdx:data,
-      havechild:"N",
-    }
-    setFormData({...formData,companyIdx:data});      
     console.log(formData);
-    // newFormData.append(
-    //   "newFormData",
-    //   new Blob(
-    //     [
-    //       JSON.stringify(formData),
-    //     ],{
-    //       type:"application/json",
-    //     }
-    //   )
-    // );
-    // axios
-    // .post(BASE_URL + "/searchGridColumn",newFormData,
-    //   {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     }
-    //   })
-    // .then((response) => {
-    //     console.log(response.data);
-    // });
+    newFormData.append(
+      "newFormData",
+      new Blob(
+        [
+          JSON.stringify(formData),
+        ],{
+          type:"application/json",
+        }
+      )
+    );
+    axios
+    .post(BASE_URL + "/searchGridColumn",newFormData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
+    .then((response) => {
+        console.log(response.data);
+    });
   }
   return (
     <div>
