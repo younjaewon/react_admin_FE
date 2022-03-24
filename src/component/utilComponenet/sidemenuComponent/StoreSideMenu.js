@@ -63,6 +63,7 @@ export default function HOMESIDEMENU() {
             link="/storeManageMenu"
             name="입점사사용 메뉴 관리"
           ></SideMenuList>
+          <SideMenuList link="/storeManageModal" name="입점사사용 모달 관리"></SideMenuList>
         </ul>
       </div>
     </>

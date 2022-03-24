@@ -66,8 +66,8 @@ const ResizingGridTemplate = ({ gridData, gridColumn, onClick }) => {
             ref={containerRef}
           >
             <DataGrid
-              width={boxWidth - 2}
-              height={boxHeight - 2}
+              width={boxWidth}
+              height={boxHeight}
               style={{ fontSize: "12px" }}
               columns={gridItem.gridColumn}
               data={gridItem.gridData}
