@@ -98,24 +98,29 @@ export default function StoreManageMenu(){
             headers: { "content-type":"multipart/form-data" },
         }).then((response) => {
             console.log(response);
-            console.log("create")
+            console.log("create");
+            
         }).catch((error) => {
             console.log(error);
         });
         setFstModalOpen(false);
-        }else{}
+        }else{console.log(formData);}
     }
 
     //입력 데이터
     const changeForm = (e) => {
-        setFormData({ company_idx: companyNo, ...formData, [e.target.name]: e.target.value });
+        setFormData({ companyIdx: companyNo, ...formData, [e.target.name]: e.target.value });
         console.log(formData)
     };
 
     const changeSelect = (e) => {
+        console.log(e.target)
         setCompanyNo(e.target.value);
       };
     
+    const handleAddColumn2 = () => {
+
+    }
 
     //모달
     const handelFstModalOpen = () => {
