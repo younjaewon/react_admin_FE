@@ -27,11 +27,19 @@ const gridColumn2 = [
     { key: "orders", width: 150, label: "순서", align: "center" }
 ];
 export default function StoreManageMenu(){
+    const [re, setRe] = useState(0);
+    const [am, setAm] = useState(false);
+    const [um, setUm] = useState(false);
     const [companyNo, setCompanyNo] = useState(1); // select box 회사 코드 데이터
     const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
     const [gridData, setGridData] = useState([]);
     const [gridData2, setGridData2] = useState([]);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        companyIdx: "",
+        dataApi: "",
+        gridname: "",
+        indexNo: ""
+    });
     const [fstModalOpen, setFstModalOpen] = useState(false);
     const [sndModalOpen, setSndModalOpen] = useState(false);
     const [grid1Item,setGrid1Item] = useState({});
@@ -83,12 +91,17 @@ export default function StoreManageMenu(){
         .catch((err) => {
             console.log(err);
         });
-    },[companyNo]);
+    },[companyNo, re]);
 
-    //등록
+    //첫번째 등록 모달
     const handelAddColumn = () => {
         console.log(formData);
-        const createColumn = window.confirm("create?")
+        if(re===1){
+            setRe(0);
+        }else if(re===0){
+            setRe(1);
+        }
+        const createColumn = window.confirm("생성 하시겠습니까?")
 
         const newFormData = new FormData;
         newFormData.append(
@@ -96,7 +109,7 @@ export default function StoreManageMenu(){
             new Blob([JSON.stringify(formData)], {type: "application/json"})
         );
 
-        if(createColumn){
+        if(createColumn){            
         axios
           .post(BASE_URL + "/searchGrid", newFormData, {
             headers: { "content-type":"multipart/form-data" },
@@ -108,8 +121,34 @@ export default function StoreManageMenu(){
             console.log(error);
         });
         setFstModalOpen(false);
-        }else{console.log(formData);}
+        }else{}
     }
+
+    //첫번째 수정 모달
+    const handelUpdateColumn = () => {
+        console.log(formData)
+        if(re===1){
+            setRe(0);
+        }else if(re===0){
+            setRe(1);
+        }
+        const updateColumn = window.confirm("수정 하시겠습니까?")
+        if(updateColumn){
+            axios.put(BASE_URL + "/searchGrid",{
+                companyIdx: formData.companyIdx,
+                dataApi: formData.dataApi,
+                gridname: formData.gridname,
+                indexNo: formData.indexNo,
+            }).then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+            });
+            setFstModalOpen(false);
+        }else{}
+        
+    }
+
 
     //입력 데이터
     const changeForm = (e) => {
@@ -123,10 +162,26 @@ export default function StoreManageMenu(){
       };
 
     //모달
-    const handelFstModalOpen = () => {
+    const handelFstCreate = () => {
+        setAm(true);
+        setUm(false);
+        setFormData({
+            companyIdx: "",
+            dataApi: "",
+            gridname: "",
+            indexNo: ""            
+        });
         setFstModalOpen(true);
     }
-
+    const handelFstUpdate = () => {
+        if(formData.indexNo===""){
+            window.alert("수정할 데이터를 선택하세요.")
+        }else{
+        setUm(true);
+        setAm(false);
+        setFstModalOpen(true);
+        }
+    }
     const handelSndModalOpen = () => {
         if(grid1ItemSelected){
             setSndModalMod("add");
@@ -151,12 +206,14 @@ export default function StoreManageMenu(){
         setSndModalOpen(false);
     }
 
-
+    //데이터 클릭 이벤트
     const clickItem = (e) => {
         if(e.item){
             const data = e.item.value;
             setGrid1ItemSelected(true);
+            setFormData(data)
             setGrid1Item(data);
+            console.log(data);
             axios.get(BASE_URL + "/searchGridColumn",{
                 params: {gridIdx:data.indexNo},
             })
@@ -193,14 +250,28 @@ export default function StoreManageMenu(){
                             
                         </div>
                         <div style={{display:"flex",marginTop:"10px"}}>
-                            <div style={{width:"50%"}}>
-                                <button onClick={handelFstModalOpen} >등록</button>
-                                <Grid 
-                                    gridColumn={gridColumn}
-                                    gridData={gridData}
-                                    onClick={clickItem}
-                                ></Grid>
-                                <FirstModal open={fstModalOpen} closeModal={handelModalClose} addModalColumn={handelAddColumn} changeModalForm={changeForm} ></FirstModal>
+                            <div style={{width:"49%"}}>
+                                <div style={{textAlign:"right", marginRight:"10px"}}>
+                                    <button onClick={handelFstCreate}>등록</button>
+                                    <button onClick={handelFstUpdate}>수정</button>
+                                </div>
+                                <div>
+                                    <Grid 
+                                        gridColumn={gridColumn}
+                                        gridData={gridData}
+                                        onClick={clickItem}
+                                    />
+                                </div>
+                                <FirstModal 
+                                    open={fstModalOpen} 
+                                    closeModal={handelModalClose} 
+                                    addModalColumn={handelAddColumn} 
+                                    updateModalColumn={handelUpdateColumn} 
+                                    changeModalForm={changeForm} 
+                                    updateModal={um}
+                                    addModal={am}
+                                    data={formData}
+                                />
                             </div>
                             <div style={{width:"50%"}}>
                                 <div style={{textAlign:"right"}}>

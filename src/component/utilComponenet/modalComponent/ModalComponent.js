@@ -2,7 +2,7 @@ import React from "react";
 import "../../../css/modal.css";
 
 const ModalComponent = (props) => {
-  const { open, close, header, addModalColumn, updateModalCoulmn } = props;
+  const { open, close, header, addModalColumn, updateModalColumn, updateModal, addModal } = props;
 
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
@@ -17,14 +17,16 @@ const ModalComponent = (props) => {
           </header>
           <main>{props.main}</main>
           <footer>
-            {updateModalCoulmn && (
-              <button className="close" onClick={updateModalCoulmn}>
+            {updateModal && (
+              <button className="close" onClick={updateModalColumn}>
                 수정
               </button>
             )}
-            <button className="close" onClick={addModalColumn}>
+            {addModal &&(
+              <button className="close" onClick={addModalColumn}>
                 등록
             </button>
+            )}
             <button className="close" onClick={close}>
               닫기
             </button>
