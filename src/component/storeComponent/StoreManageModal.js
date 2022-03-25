@@ -98,11 +98,7 @@ export default function StoreManageMenu(){
     //첫번째 등록 모달
     const handelAddColumn = () => {
         console.log(formData);
-        if(re===1){
-            setRe(0);
-        }else if(re===0){
-            setRe(1);
-        }
+        
         const createColumn = window.confirm("생성 하시겠습니까?")
         const newFormData = new FormData;
         newFormData.append(
@@ -122,16 +118,17 @@ export default function StoreManageMenu(){
         });
         setFstModalOpen(false);
         }else{}
-    }
-
-    //첫번째 수정 모달
-    const handelUpdateColumn = () => {
-        console.log(formData)
         if(re===1){
             setRe(0);
         }else if(re===0){
             setRe(1);
         }
+    }
+
+    //첫번째 수정 모달
+    const handelUpdateColumn = () => {
+        console.log(formData)
+        
         const updateColumn = window.confirm("수정 하시겠습니까?")
         if(updateColumn){
             axios.put(BASE_URL + "/searchGrid",{
@@ -146,6 +143,11 @@ export default function StoreManageMenu(){
             });
             setFstModalOpen(false);
         }else{}
+        if(re===1){
+            setRe(0);
+        }else if(re===0){
+            setRe(1);
+        }
     }
 
 
@@ -163,7 +165,7 @@ export default function StoreManageMenu(){
     //모달
     const handleFstCreate = () => {
         setFormData({
-            companyIdx: "",
+            companyIdx: companyNo,
             dataApi: "",
             gridname: "",
             indexNo: ""            
