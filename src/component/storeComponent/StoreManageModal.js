@@ -46,6 +46,7 @@ export default function StoreManageMenu(){
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
     const [grid2Item,setGrid2Item] = useState({});
     const [grid2ItemSelected,setGrid2ItemSelected] = useState(false);
+    const [fstModalMod,setFstModalMod] = useState("");
     const [sndModalMod,setSndModalMod] = useState("");
 
     const gridSetData = (datas) => {
@@ -102,13 +103,11 @@ export default function StoreManageMenu(){
             setRe(1);
         }
         const createColumn = window.confirm("생성 하시겠습니까?")
-
         const newFormData = new FormData;
         newFormData.append(
             "newFormData",
             new Blob([JSON.stringify(formData)], {type: "application/json"})
         );
-
         if(createColumn){            
         axios
           .post(BASE_URL + "/searchGrid", newFormData, {
@@ -146,7 +145,6 @@ export default function StoreManageMenu(){
             });
             setFstModalOpen(false);
         }else{}
-        
     }
 
 
@@ -163,22 +161,20 @@ export default function StoreManageMenu(){
 
     //모달
     const handelFstCreate = () => {
-        setAm(true);
-        setUm(false);
         setFormData({
             companyIdx: "",
             dataApi: "",
             gridname: "",
             indexNo: ""            
         });
+        setFstModalMod("add");
         setFstModalOpen(true);
     }
     const handelFstUpdate = () => {
         if(formData.indexNo===""){
             window.alert("수정할 데이터를 선택하세요.")
         }else{
-        setUm(true);
-        setAm(false);
+        setFstModalMod("mod");
         setFstModalOpen(true);
         }
     }
@@ -211,7 +207,7 @@ export default function StoreManageMenu(){
         if(e.item){
             const data = e.item.value;
             setGrid1ItemSelected(true);
-            setFormData(data)
+            setFormData(data);
             setGrid1Item(data);
             console.log(data);
             axios.get(BASE_URL + "/searchGridColumn",{
@@ -263,12 +259,13 @@ export default function StoreManageMenu(){
                                     />
                                 </div>
                                 <FirstModal 
-                                    open={fstModalOpen} 
+                                    open={fstModalOpen}
                                     closeModal={handelModalClose}
                                     addModalColumn={handelAddColumn}
                                     updateModalColumn={handelUpdateColumn}
                                     changeModalForm={changeForm}
                                     data={formData}
+                                    type={fstModalMod}
                                 />
                             </div>
                             <div style={{width:"50%"}}>
@@ -284,7 +281,12 @@ export default function StoreManageMenu(){
                                     >
                                     </Grid>
                                 </div>
-                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={grid1Item} editData={grid2Item} type={sndModalMod}></SecondModal>
+                                <SecondModal 
+                                    open={sndModalOpen} 
+                                    closeModal={handelModalClose} 
+                                    data={grid1Item} 
+                                    editData={grid2Item} 
+                                    type={sndModalMod}></SecondModal>
                             </div>
                         </div>
                     </div>

@@ -1,8 +1,14 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({ open, closeModal, changeModalForm, addModalColumn, updateModalColumn, data }) => {
+const Modal = ({ open, closeModal, changeModalForm, addModalColumn, updateModalColumn, data, type }) => {
+  if(type==="mod"){
+    addModalColumn=false;
+  }else if(type==="add"){
+    updateModalColumn=false;
+  }
+
   return (
     <div>
       <ModalComponent
