@@ -16,11 +16,11 @@ export default function StoreManageMenu() {
   const [modalFormData, setModalFormData] = useState({}); // 메뉴 그리드 Post 데이터
   const [treeMenu, setTreeMenu] = useState([]); // Tree 메뉴 데이터
   const [companyNo, setCompanyNo] = useState("1"); // select box 회사 코드 데이터
-  const [menuIndexNo, setMenuIndexNo] = useState(""); 
+  const [menuIndexNo, setMenuIndexNo] = useState("");
   const [groupIndexNo, setGroupIndexNo] = useState(""); // modal 안에 grid/form Group IndexNo 지정
   const [menuColumnList, setMenuColumnList] = useState([]); // 메뉴 그리드 Get 데이터
   const [selectCompany, setSelectCompany] = useState([]); // 입점사 Select 데이터
-
+  const [re, setRe] = useState(""); // 전송 후 재 렌더링
 
   useEffect(() => {
     axios
@@ -30,7 +30,7 @@ export default function StoreManageMenu() {
       .then((response) => {
         setTreeMenu(response.data);
       });
-  }, [companyNo]);
+  }, [companyNo, re]);
 
   useEffect(() => {
     axios
@@ -75,7 +75,7 @@ export default function StoreManageMenu() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => setCompanyNo("2"));
+      .then((response) => setRe(!re));
   };
 
   const menuColumnGet = async () => {
@@ -141,20 +141,20 @@ export default function StoreManageMenu() {
   const gridOpenModal = (e) => {
     setGroupIndexNo(e.target.name);
     setGridModalOpen(true);
-  }
+  };
 
   const gridCloseModal = () => {
     setGridModalOpen(false);
-  }
+  };
 
   const formOpenModal = (e) => {
     setGroupIndexNo(e.target.name);
     setFormModalOpen(true);
-  }
+  };
 
   const formCloseModal = () => {
     setFormModalOpen(false);
-  }
+  };
 
   const onSelect = (selectedKeys, info) => {
     if (info.node.isLeaf) {
@@ -187,16 +187,15 @@ export default function StoreManageMenu() {
     menuColumnGet();
     openModal();
     console.log(menuIndexNo);
-  }
+  };
 
   const addGridData = (e) => {
     gridOpenModal();
-
-  }
+  };
 
   const addFormData = (e) => {
     console.log(menuIndexNo);
-  }
+  };
 
   return (
     <>
@@ -243,7 +242,7 @@ export default function StoreManageMenu() {
                     {
                       value: {
                         name: "upmenu",
-                        text: "대메뉴번호"
+                        text: "대메뉴번호",
                       },
                     },
                     {
@@ -283,7 +282,7 @@ export default function StoreManageMenu() {
                         text: "view_api",
                       },
                     },
-              
+
                     {
                       value: {
                         name: "isexcel",

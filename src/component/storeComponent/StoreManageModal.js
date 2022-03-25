@@ -264,12 +264,10 @@ export default function StoreManageMenu(){
                                 </div>
                                 <FirstModal 
                                     open={fstModalOpen} 
-                                    closeModal={handelModalClose} 
-                                    addModalColumn={handelAddColumn} 
-                                    updateModalColumn={handelUpdateColumn} 
-                                    changeModalForm={changeForm} 
-                                    updateModal={um}
-                                    addModal={am}
+                                    closeModal={handelModalClose}
+                                    addModalColumn={handelAddColumn}
+                                    updateModalColumn={handelUpdateColumn}
+                                    changeModalForm={changeForm}
                                     data={formData}
                                 />
                             </div>
