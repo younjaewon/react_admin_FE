@@ -17,12 +17,12 @@ const ModalComponent = (props) => {
           </header>
           <main>{props.main}</main>
           <footer>
-            {updateModal && (
+            {updateModalColumn && (
               <button className="close" onClick={updateModalColumn}>
                 수정
               </button>
             )}
-            {addModal &&(
+            {addModalColumn &&(
               <button className="close" onClick={addModalColumn}>
                 등록
             </button>
