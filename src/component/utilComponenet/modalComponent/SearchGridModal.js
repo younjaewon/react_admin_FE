@@ -2,7 +2,7 @@ import React from "react";
 import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 
-const Modal = ({ open, closeModal, changeModalForm, addModalColumn, updateModalColumn, updateModal, addModal, data }) => {
+const Modal = ({ open, closeModal, changeModalForm, addModalColumn, updateModalColumn, data }) => {
   return (
     <div>
       <ModalComponent
@@ -10,8 +10,6 @@ const Modal = ({ open, closeModal, changeModalForm, addModalColumn, updateModalC
         close={closeModal}
         addModalColumn={addModalColumn}
         updateModalColumn={updateModalColumn}
-        updateModal={updateModal}
-        addModal={addModal}
         header="first modal"
         main={
           <>
