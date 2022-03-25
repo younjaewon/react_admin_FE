@@ -11,6 +11,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
     name: "",
     elename: "",
     showtype: "",
+    s_showtype:"",
     dataclass: "",
     predata: "",
     gonext: "",
@@ -54,6 +55,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             name: menuFormData.name,
             elename: menuFormData.elename,
             showtype: menuFormData.showtype,
+            s_showtype:menuFormData.s_showtype,
             dataclass: menuFormData.dataclass,
             predata: menuFormData.predata,
             predatatype: menuFormData.predatatype,
@@ -82,6 +84,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             name: "",
             elename: "",
             showtype: "",
+            s_showtype:"",
             dataclass: "",
             predata: "",
             gonext: "",
@@ -102,6 +105,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
         name: "",
         elename: "",
         showtype: "",
+        s_showtype:"",
         dataclass: "",
         predata: "",
         gonext: "",
@@ -134,11 +138,12 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
       name: updateArrayForm[2].textContent,
       elename: updateArrayForm[3].textContent,
       showtype: updateArrayForm[4].textContent ? updateArrayForm[4].textContent : "",
-      dataclass: updateArrayForm[5].textContent ? updateArrayForm[5].textContent : "",
-      predata: updateArrayForm[6].textContent ? updateArrayForm[6].textContent : "",
-      gonext: updateArrayForm[7].textContent ? updateArrayForm[7].textContent : "",
-      searchfield: updateArrayForm[8].textContent ? updateArrayForm[8].textContent : "",
-      orders: updateArrayForm[9].textContent,
+      s_showtype:updateArrayForm[5].textContent ? updateArrayForm[5].textContent: "",
+      dataclass: updateArrayForm[6].textContent ? updateArrayForm[6].textContent : "",
+      predata: updateArrayForm[7].textContent ? updateArrayForm[7].textContent : "",
+      gonext: updateArrayForm[8].textContent ? updateArrayForm[8].textContent : "",
+      searchfield: updateArrayForm[9].textContent ? updateArrayForm[9].textContent : "",
+      orders: updateArrayForm[10].textContent,
     });
   }, []);
 
@@ -154,6 +159,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
         <td>{item.name}</td>
         <td>{item.elename}</td>
         <td>{item.showtype}</td>
+        <td>{item.s_showtype}</td>
         <td>{item.dataclass}</td>
         <td>{item.predata}</td>
         <td>{item.gonext}</td>
@@ -200,6 +206,13 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
                     name: "showtype",
                     text: "showtype",
                     content: menuFormData.showtype,
+                  },
+                },
+                {
+                  value: {
+                    name: "s_showtype",
+                    text: "s_showtype",
+                    content: menuFormData.s_showtype,
                   },
                 },
                 {
@@ -272,6 +285,9 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
                     </td>
                     <td>
                       <label>showtype</label>
+                    </td>
+                    <td>
+                      <label>s_showtype</label>
                     </td>
                     <td>
                       <label>dataclass</label>
