@@ -7,6 +7,7 @@ import BASE_URL from "../../utils/Api";
 import axios from "axios";
 import GridDataModal from ".././utilComponenet/modalComponent/GridDataModal";
 import FormDataModal from "../utilComponenet/modalComponent/FormDataModal";
+import Select from "../utilComponenet/formComponent/SelectComponent";
 
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
@@ -253,13 +254,6 @@ export default function StoreManageMenu() {
                     },
                     {
                       value: {
-                        name: "codes",
-                        text: "코드",
-                      },
-                    },
-
-                    {
-                      value: {
                         name: "isregi",
                         text: "isregi",
                       },
@@ -301,6 +295,17 @@ export default function StoreManageMenu() {
                         text: "정렬",
                       },
                     },
+                  ]}
+                  changeForm={changeForm}
+                />
+                <Select
+                  name="codes"
+                  items={[
+                    { name: "선택", value: "0" },
+                    { name: "companyform", value: "companyform" },
+                    { name: "contlist", value: "contlist" },
+                    { name: "contlistnview", value: "contlistnview" },
+                    { name: "contviewud", value: "contviewud" },
                   ]}
                   changeForm={changeForm}
                 />
