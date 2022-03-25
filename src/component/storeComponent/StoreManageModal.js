@@ -36,6 +36,9 @@ export default function StoreManageMenu(){
     const [sndModalOpen, setSndModalOpen] = useState(false);
     const [grid1Item,setGrid1Item] = useState({});
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
+    const [grid2Item,setGrid2Item] = useState({});
+    const [grid2ItemSelected,setGrid2ItemSelected] = useState(false);
+    const [sndModalMod,setSndModalMod] = useState("");
 
     const gridSetData = (datas) => {
         const gridArraySet = [];
@@ -123,15 +126,26 @@ export default function StoreManageMenu(){
     const handelFstModalOpen = () => {
         setFstModalOpen(true);
     }
+
     const handelSndModalOpen = () => {
         if(grid1ItemSelected){
+            setSndModalMod("add");
             setSndModalOpen(true);
         }else{
             alert("그리드를 선택하세요");
             return false;
         }
     }
-
+    const editSndModal = () => {
+        if(grid2ItemSelected){
+            setSndModalMod("mod");
+            setSndModalOpen(true);
+        }else{
+            alert("컬럼을 선택하세요");
+            return false;
+        }
+    }
+    
     const handelModalClose = () => {
         setFstModalOpen(false);
         setSndModalOpen(false);
@@ -140,7 +154,7 @@ export default function StoreManageMenu(){
 
     const clickItem = (e) => {
         if(e.item){
-            var data = e.item.value;
+            const data = e.item.value;
             setGrid1ItemSelected(true);
             setGrid1Item(data);
             axios.get(BASE_URL + "/searchGridColumn",{
@@ -154,7 +168,9 @@ export default function StoreManageMenu(){
     }
     const clickItem2 = (e) => {
         if(e.item){
-            console.log(e.item.value);
+            const data = e.item.value;
+            setGrid2ItemSelected(true);
+            setGrid2Item(data);
         }
     }
 
@@ -189,7 +205,7 @@ export default function StoreManageMenu(){
                             <div style={{width:"50%"}}>
                                 <div style={{textAlign:"right"}}>
                                     <button onClick={handelSndModalOpen}>등록</button>
-                                    <button onClick={handelSndModalOpen}>수정</button>
+                                    <button onClick={editSndModal}>수정</button>
                                 </div>
                                 <div>
                                     <Grid
@@ -199,7 +215,7 @@ export default function StoreManageMenu(){
                                     >
                                     </Grid>
                                 </div>
-                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={grid1Item}></SecondModal>
+                                <SecondModal open={sndModalOpen} closeModal={handelModalClose} data={grid1Item} editData={grid2Item} type={sndModalMod}></SecondModal>
                             </div>
                         </div>
                     </div>
