@@ -79,6 +79,20 @@ export default function StoreManageMenu() {
       .then((response) => setRe(!re));
   };
 
+  const updateMenu = () => {
+    const newFormData = JSON.stringify({ ...formData });
+    axios
+      .put(BASE_URL + "/menu", newFormData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        setRe(!re);
+      });
+  };
+
   const menuColumnGet = async () => {
     await axios
       .get(BASE_URL + "/menuFormGroup", { params: { menuIdx: menuIndexNo } })
@@ -161,13 +175,37 @@ export default function StoreManageMenu() {
     if (info.node.isLeaf) {
       setModalFormData({ ...modalFormData, menu_idx: selectedKeys[0] });
       setMenuIndexNo(info.node.indexNo);
+      setFormData({
+        ...formData,
+        indexNo: info.node.indexNo,
+        companyIdx: companyNo,
+        name: info.node.name,
+        codes: info.node.codes,
+        upmenu: info.node.upmenu,
+        isregi: info.node.isregi,
+        regi_api: info.node.regi_api,
+        list_api: info.node.list_api,
+        view_api: info.node.view_api,
+        isexcel: info.node.isexcel,
+        list_column_idx: info.node.listColumnIdx,
+        orders: info.node.orders,
+      }); // input Form에 데이터 세팅
     } else {
       setMenuIndexNo(info.node.indexNo);
       setFormData({
         ...formData,
-        company_idx: info.node.companyIdx,
+        company_idx: companyNo,
+        name: info.node.name,
+        codes: info.node.codes,
         upmenu: info.node.indexNo,
-      }); // input Form에 company, upmenu 넘버 세팅
+        isregi: info.node.isregi,
+        regi_api: info.node.regi_api,
+        list_api: info.node.list_api,
+        view_api: info.node.view_api,
+        isexcel: info.node.isexcel,
+        list_column_idx: info.node.listColumnIdx,
+        orders: info.node.orders,
+      }); // input Form에 데이터 세팅
     }
     console.log("selected", selectedKeys, info);
   };
@@ -207,7 +245,10 @@ export default function StoreManageMenu() {
               <h3>입점사사용 메뉴 관리</h3>
             </div>
             <button className="mes-button" onClick={addMenu}>
-              전송
+              등록
+            </button>
+            <button className="mes-button" onClick={updateMenu}>
+              수정
             </button>
             <button className="mes-button" onClick={addFormGroup}>
               폼 그룹 데이터
@@ -237,6 +278,7 @@ export default function StoreManageMenu() {
                       value: {
                         name: "company_idx",
                         text: "회사코드",
+                        content: formData.company_idx,
                         readonly: true,
                       },
                     },
@@ -244,36 +286,42 @@ export default function StoreManageMenu() {
                       value: {
                         name: "upmenu",
                         text: "대메뉴번호",
+                        content: formData.upmenu,
                       },
                     },
                     {
                       value: {
                         name: "name",
                         text: "메뉴이름",
+                        content: formData.name,
                       },
                     },
                     {
                       value: {
                         name: "isregi",
                         text: "isregi",
+                        content: formData.isregi,
                       },
                     },
                     {
                       value: {
                         name: "regi_api",
                         text: "regi_api",
+                        content: formData.regi_api,
                       },
                     },
                     {
                       value: {
                         name: "list_api",
                         text: "list_api",
+                        content: formData.list_api,
                       },
                     },
                     {
                       value: {
                         name: "view_api",
                         text: "view_api",
+                        content: formData.view_api,
                       },
                     },
 
@@ -281,18 +329,21 @@ export default function StoreManageMenu() {
                       value: {
                         name: "isexcel",
                         text: "isexcel",
+                        content: formData.isexcel,
                       },
                     },
                     {
                       value: {
                         name: "list_column_idx",
                         text: "list_column_idx",
+                        content: formData.list_column_idx,
                       },
                     },
                     {
                       value: {
                         name: "orders",
                         text: "정렬",
+                        content: formData.orders,
                       },
                     },
                   ]}

@@ -11,7 +11,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
     name: "",
     elename: "",
     showtype: "",
-    s_showtype:"",
+    s_showtype: "",
     dataclass: "",
     predata: "",
     gonext: "",
@@ -55,7 +55,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             name: menuFormData.name,
             elename: menuFormData.elename,
             showtype: menuFormData.showtype,
-            s_showtype:menuFormData.s_showtype,
+            s_showtype: menuFormData.s_showtype,
             dataclass: menuFormData.dataclass,
             predata: menuFormData.predata,
             predatatype: menuFormData.predatatype,
@@ -84,7 +84,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
             name: "",
             elename: "",
             showtype: "",
-            s_showtype:"",
+            s_showtype: "",
             dataclass: "",
             predata: "",
             gonext: "",
@@ -105,7 +105,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
         name: "",
         elename: "",
         showtype: "",
-        s_showtype:"",
+        s_showtype: "",
         dataclass: "",
         predata: "",
         gonext: "",
@@ -137,19 +137,31 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
       ...menuFormData,
       name: updateArrayForm[2].textContent,
       elename: updateArrayForm[3].textContent,
-      showtype: updateArrayForm[4].textContent ? updateArrayForm[4].textContent : "",
-      s_showtype:updateArrayForm[5].textContent ? updateArrayForm[5].textContent: "",
-      dataclass: updateArrayForm[6].textContent ? updateArrayForm[6].textContent : "",
-      predata: updateArrayForm[7].textContent ? updateArrayForm[7].textContent : "",
-      gonext: updateArrayForm[8].textContent ? updateArrayForm[8].textContent : "",
-      searchfield: updateArrayForm[9].textContent ? updateArrayForm[9].textContent : "",
+      showtype: updateArrayForm[4].textContent
+        ? updateArrayForm[4].textContent
+        : "",
+      s_showtype: updateArrayForm[5].textContent
+        ? updateArrayForm[5].textContent
+        : "",
+      dataclass: updateArrayForm[6].textContent
+        ? updateArrayForm[6].textContent
+        : "",
+      predata: updateArrayForm[7].textContent
+        ? updateArrayForm[7].textContent
+        : "",
+      gonext: updateArrayForm[8].textContent
+        ? updateArrayForm[8].textContent
+        : "",
+      searchfield: updateArrayForm[9].textContent
+        ? updateArrayForm[9].textContent
+        : "",
       orders: updateArrayForm[10].textContent,
     });
   }, []);
 
   useEffect(() => {
     console.log(menuFormData);
-  },[menuFormData])
+  }, [menuFormData]);
 
   const columnListSet = () => {
     const columItem = formData.map((item) => (
@@ -181,7 +193,7 @@ const FormDataModal = ({ open, closeModal, groupIndexNo }) => {
         open={open}
         close={closeModal}
         addModalColumn={addMenuFormGrid}
-        updateModalCoulmn={updateMenuGrid}
+        updateModalColumn={updateMenuGrid}
         header="메뉴 Form 등록"
         main={
           <>
