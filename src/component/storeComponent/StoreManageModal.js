@@ -150,7 +150,8 @@ export default function StoreManageMenu(){
                 gridname: formData.gridname,
                 indexNo: formData.indexNo,
             }).then((res) => {
-                console.log(res)
+                console.log(res);
+                getGridList1();
             }).catch((err) => {
                 console.log(err)
             });
@@ -206,6 +207,7 @@ export default function StoreManageMenu(){
                 })
                 .then((resource) => {
                     setGrid1Item({});
+                    getGridList1();
                 })
             }
         }else{
