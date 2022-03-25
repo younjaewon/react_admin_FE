@@ -24,7 +24,7 @@ const MyBox = styled.div`
 `;
 
 const ResizingGridTemplate = ({ gridData, gridColumn, onClick }) => {
-  const [boxWidth, setBoxWidth] = useState("1000");
+  const [boxWidth, setBoxWidth] = useState("850");
   const [boxHeight, setBoxHeight] = useState("600");
   const [gridItem, setGridItem] = useState({
     gridColumn: [],

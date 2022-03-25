@@ -45,6 +45,7 @@ export default function StoreManageMenu(){
     const [grid1Item,setGrid1Item] = useState({});
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
     const [grid2Item,setGrid2Item] = useState({});
+    const [grid2ItemTemp,setGrid2ItemTemp] = useState({});
     const [grid2ItemSelected,setGrid2ItemSelected] = useState(false);
     const [fstModalMod,setFstModalMod] = useState("");
     const [sndModalMod,setSndModalMod] = useState("");
@@ -160,7 +161,7 @@ export default function StoreManageMenu(){
       };
 
     //모달
-    const handelFstCreate = () => {
+    const handleFstCreate = () => {
         setFormData({
             companyIdx: "",
             dataApi: "",
@@ -170,7 +171,7 @@ export default function StoreManageMenu(){
         setFstModalMod("add");
         setFstModalOpen(true);
     }
-    const handelFstUpdate = () => {
+    const handleFstUpdate = () => {
         if(formData.indexNo===""){
             window.alert("수정할 데이터를 선택하세요.")
         }else{
@@ -178,19 +179,60 @@ export default function StoreManageMenu(){
         setFstModalOpen(true);
         }
     }
-    const handelSndModalOpen = () => {
+
+    const handleFstDelete = () => {
         if(grid1ItemSelected){
-            setSndModalMod("add");
-            setSndModalOpen(true);
+            const confirm = window.confirm("삭제하시겠습니까? \n삭제시 하위 모든 그리드 데이터가 삭제됩니다.");
+            if(confirm){
+                axios
+                .delete(BASE_URL+"/searchGrid",
+                {
+                    data: grid1Item
+                })
+            }
         }else{
             alert("그리드를 선택하세요");
             return false;
         }
     }
-    const editSndModal = () => {
+
+    const handleSndCreate = () => {
+        if(grid1ItemSelected){
+            setSndModalMod("add");
+            setSndModalOpen(true);
+            setGrid2Item({
+            indexNo:"",
+            label: "",
+            datakey: "",
+            width: "",
+            align: "",
+            orders: "",});
+        }else{
+            alert("그리드를 선택하세요");
+            return false;
+        }
+    }
+    const handleSndUpdate = () => {
         if(grid2ItemSelected){
+            setGrid2Item(grid2ItemTemp);
             setSndModalMod("mod");
             setSndModalOpen(true);
+            
+        }else{
+            alert("컬럼을 선택하세요");
+            return false;
+        }
+    }
+    const handleSndDelete = () => {
+        if(grid2ItemSelected){
+            const confirm = window.confirm("삭제하시겠습니까?");
+            if(confirm){
+                axios
+                .delete(BASE_URL+"/searchGridColumn",
+                {
+                    data: grid2Item
+                })
+            }
         }else{
             alert("컬럼을 선택하세요");
             return false;
@@ -223,6 +265,7 @@ export default function StoreManageMenu(){
         if(e.item){
             const data = e.item.value;
             setGrid2ItemSelected(true);
+            setGrid2ItemTemp(data);
             setGrid2Item(data);
         }
     }
@@ -248,8 +291,9 @@ export default function StoreManageMenu(){
                         <div style={{display:"flex",marginTop:"10px"}}>
                             <div style={{width:"49%"}}>
                                 <div style={{textAlign:"right", marginRight:"10px"}}>
-                                    <button onClick={handelFstCreate}>등록</button>
-                                    <button onClick={handelFstUpdate}>수정</button>
+                                    <button onClick={handleFstCreate}>등록</button>
+                                    <button onClick={handleFstUpdate}>수정</button>
+                                    <button onClick={handleFstDelete}>삭제</button>
                                 </div>
                                 <div>
                                     <Grid 
@@ -270,8 +314,9 @@ export default function StoreManageMenu(){
                             </div>
                             <div style={{width:"50%"}}>
                                 <div style={{textAlign:"right"}}>
-                                    <button onClick={handelSndModalOpen}>등록</button>
-                                    <button onClick={editSndModal}>수정</button>
+                                    <button onClick={handleSndCreate}>등록</button>
+                                    <button onClick={handleSndUpdate}>수정</button>
+                                    <button onClick={handleSndDelete}>삭제</button>
                                 </div>
                                 <div>
                                     <Grid

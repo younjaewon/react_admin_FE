@@ -43,7 +43,7 @@ export default function HOMESIDEMENU() {
       </div>
 
       <div className={side === 1 ? "gnb-sideMenu-ac" : "gnb-sideMenu"}>
-        <SideMenuTitle title="입점사관리"></SideMenuTitle>
+        <SideMenuTitle title="고객관리"></SideMenuTitle>
 
         <div
           className={item1 === 1 ? "listname-active" : "listname"}
@@ -55,15 +55,15 @@ export default function HOMESIDEMENU() {
             }
           }}
         >
-          입점사관리
+          고객관리
         </div>
         <ul className={item1 === 1 ? "listGroup" : "listGroup-hidden"}>
-          <SideMenuList link="/storeManage" name="입점사관리"></SideMenuList>
+          <SideMenuList link="/storeManage" name="고객정보관리"></SideMenuList>
           <SideMenuList
             link="/storeManageMenu"
-            name="입점사사용 메뉴 관리"
+            name="고객사 메뉴 관리"
           ></SideMenuList>
-          <SideMenuList link="/storeManageModal" name="입점사사용 모달 관리"></SideMenuList>
+          <SideMenuList link="/storeManageModal" name="고객사 모달 그리드 관리"></SideMenuList>
         </ul>
       </div>
     </>

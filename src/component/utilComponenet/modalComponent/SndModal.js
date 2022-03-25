@@ -14,75 +14,51 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
     align: "",
     orders: "",
   });
-  const [updateFunc,setUpdateFunc] = useState(() => () => {
-  });
-  const [insertFunc,setInsertFunc] = useState(() => () => {
-
-  });
   useEffect(()=>{
-    if(type === ""){
-      return false;
-    }
-    console.log("확인");
-    setInsertFunc(undefined);
-    setUpdateFunc(undefined);
-    if(type === "add"){
-      setFormData({
-        label: "",
-        datakey: "",
-        width: "",
-        align: "",
-        orders: "",
-      });
+    setFormData({...editData});
+  },[editData])
+  const updateFunc = () => {
+    if(type === "mod"){
 
-      setInsertFunc(() => () => {
-        let newFormData = new FormData();
-        newFormData.append(
-          "newFormData",
-          new Blob(
-            [
-              JSON.stringify(formData),
-            ],{
-              type:"application/json",
+      console.log(formData);
+      const updateChk = window.confirm("수정하시겠습니까?");
+      if(updateChk){
+        const indexNo = editData.indexNo;
+        const modFormData = {...formData,indexNo:indexNo};
+        axios.put(BASE_URL + "/searchGridColumn",
+                modFormData)
+                .then((resource) => {
+                  console.log("test");
+                })
+      }
+    }
+  }
+  const insertFunc = () => {
+    if(type=== "add"){
+      console.log(formData);
+      let newFormData = new FormData();
+      newFormData.append(
+        "newFormData",
+        new Blob(
+          [
+            JSON.stringify(formData),
+          ],{
+            type:"application/json",
             }
           )
         );
         axios
-        .post(BASE_URL + "/searchGridColumn",newFormData,
+          .post(BASE_URL + "/searchGridColumn",newFormData,
           {
             headers: {
               "Content-Type": "multipart/form-data",
             }
           })
-        .then((response) => {
+          .then((response) => {
             console.log(response.data);
-        });
-      })
-    }else if(type === "mod"){
-      setFormData(editData);
-      setUpdateFunc(() => () => {
-        console.log("formData : " , formData);
-        handleUpdate();
-        const updateChk = window.confirm("수정하시겠습니까?");
-        if(updateChk){
-          const indexNo = editData.indexNo;
-          const modFormData = {...formData,indexNo:indexNo};
-          debugger
-          // axios.put(BASE_URL + "/searchGridColumn",
-          //         modFormData)
-          //         .then((resource) => {
-          //           console.log("test");
-          //         })
-        }
-      });
+          });
     }
-  },[editData,type])
-
-  const handleUpdate = () => {
-    console.log(formData);
-    console.log("hi");
   }
-
 
   const changeModalForm = (e) => {
     const gridIdx = data.indexNo;
