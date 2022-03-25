@@ -46,15 +46,18 @@ export default function StoreManageMenu() {
   const addMenu = (e) => {
     let menuFormData = new FormData();
     menuFormData.append(
-      "menuFormData",
+      "newFormData",
       new Blob(
         [
           JSON.stringify({
-            companyIdx: formData.company_idx,
+            companyIdx: companyNo,
             name: formData.name,
             codes: formData.codes,
             upmenu: formData.upmenu,
             isregi: formData.isregi,
+            regi_api: formData.regi_api,
+            list_api: formData.list_api,
+            view_api: formData.view_api,
             isexcel: formData.isexcel,
             listColumnIdx: formData.list_column_idx,
             orders: formData.orders,
@@ -240,8 +243,7 @@ export default function StoreManageMenu() {
                     {
                       value: {
                         name: "upmenu",
-                        text: "대메뉴번호",
-                        readonly: true,
+                        text: "대메뉴번호"
                       },
                     },
                     {
@@ -263,6 +265,25 @@ export default function StoreManageMenu() {
                         text: "isregi",
                       },
                     },
+                    {
+                      value: {
+                        name: "regi_api",
+                        text: "regi_api",
+                      },
+                    },
+                    {
+                      value: {
+                        name: "list_api",
+                        text: "list_api",
+                      },
+                    },
+                    {
+                      value: {
+                        name: "view_api",
+                        text: "view_api",
+                      },
+                    },
+              
                     {
                       value: {
                         name: "isexcel",

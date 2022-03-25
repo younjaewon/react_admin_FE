@@ -15,6 +15,8 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
     orders: "",
   });
   const [updateFunc,setUpdateFunc] = useState(() => () => {
+  });
+  const [insertFunc,setInsertFunc] = useState(() => () => {
 
   });
   useEffect(()=>{
@@ -25,13 +27,47 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
       align: "",
       orders: "",
     });
+    setInsertFunc(undefined);
     setUpdateFunc(undefined);
-    if(type === "mod"){
+    if(type === "add"){
+      setInsertFunc(() => () => {
+        let newFormData = new FormData();
+        newFormData.append(
+          "newFormData",
+          new Blob(
+            [
+              JSON.stringify(formData),
+            ],{
+              type:"application/json",
+            }
+          )
+        );
+
+        axios
+        .post(BASE_URL + "/searchGridColumn",newFormData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }
+          })
+        .then((response) => {
+            console.log(response.data);
+        });
+      })
+    }else if(type === "mod"){
+      console.log(type)
       setFormData(editData);
       setUpdateFunc(() => () => {
-        const b = "bbbb";
-        console.log(b);
-      })
+        const updateChk = window.confirm("수정하시겠습니까?");
+        if(updateChk){
+          const indexNo = editData.indexNo;
+          console.log("수정");
+          // axios.put(BASE_URL + "/searchGridColumn",{
+          //   indexNo: editData.
+          // })
+        }
+      });
+      
     }
   },[editData,type])
   const changeModalForm = (e) => {
@@ -42,37 +78,13 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
       gridIdx:gridIdx,
       haveChild:"N"});
   }
-  const addModalColumn = (e) => {
-    let newFormData = new FormData();
-    newFormData.append(
-      "newFormData",
-      new Blob(
-        [
-          JSON.stringify(formData),
-        ],{
-          type:"application/json",
-        }
-      )
-    );
-    axios
-    .post(BASE_URL + "/searchGridColumn",newFormData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
-    .then((response) => {
-        console.log(response.data);
-    });
-  }
-
   return (
     <div>
       <ModalComponent
         open={open}
         close={closeModal}
-        addModalColumn={addModalColumn}
-        updateModalCoulmn={updateFunc}
+        addModalColumn={insertFunc}
+        updateModalColumn={updateFunc}
         header="컬럼 정보 관리"
         main={
           <>
