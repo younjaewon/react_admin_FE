@@ -5,11 +5,7 @@ import axios from "axios";
 import BASE_URL from "../../../utils/Api";
 import Select from "../formComponent/SelectComponent";
 
-const GridDataModal = ({
-  open,
-  closeModal,
-  groupIndexNo,
-}) => {
+const GridDataModal = ({ open, closeModal, groupIndexNo }) => {
   const [gridData, setGridData] = useState([]);
   const [formDataGrid, setFormDataGrid] = useState({
     label: "",
@@ -17,7 +13,7 @@ const GridDataModal = ({
     width: "",
     align: "",
     orders: "",
-    upIdx: ""
+    upIdx: "",
   });
   const [re, setRe] = useState(true);
   const indexNo = useRef("");
@@ -31,71 +27,69 @@ const GridDataModal = ({
         console.log(response.data);
         setGridData(response.data);
       });
-  }, [groupIndexNo,re]);
+  }, [groupIndexNo, re]);
 
   const deleteMenuGrid = (e) => {
-    axios.delete(BASE_URL + "/menuFormGrid", { data: { indexNo: e.target.name } }).then((response) => {
-      setRe(!re);
-      console.log(response);
-    });
-  }
-  
-    const addMenuFormGrid = () => {
-      let newFormData = new FormData();
-
-      newFormData.append(
-        "newFormData",
-        new Blob(
-          [
-            JSON.stringify({
-              label: formDataGrid.label,
-              datakey: formDataGrid.datakey,
-              width: formDataGrid.width,
-              align: formDataGrid.align,
-              orders: formDataGrid.orders,
-              upIdx: formDataGrid.upIdx,
-              groupIdx: groupIndexNo,
-            }),
-          ],
-          {
-            type: "application/json",
-          }
-        )
-      );
-
-      axios
-        .post(BASE_URL + "/menuFormGrid", newFormData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          {
-            console.log(response.data);
-            setFormDataGrid({
-              label: "",
-              datakey: "",
-              width: "",
-              align: "",
-              orders: "",
-              upIdx: "",
-            });
-            setRe(!re);
-          }
-        });
+    axios
+      .delete(BASE_URL + "/menuFormGrid", { data: { indexNo: e.target.name } })
+      .then((response) => {
+        setRe(!re);
+        console.log(response);
+      });
   };
 
-    const updateMenuGrid = () => {
-      const newFormData = { ...formDataGrid, indexNo: indexNo.current };
-      axios
-        .put(BASE_URL + "/menuFormGrid",
-          newFormData
-        )
-        .then((response) => {
-          console.log(response);
+  const addMenuFormGrid = () => {
+    let newFormData = new FormData();
+
+    newFormData.append(
+      "newFormData",
+      new Blob(
+        [
+          JSON.stringify({
+            label: formDataGrid.label,
+            datakey: formDataGrid.datakey,
+            width: formDataGrid.width,
+            align: formDataGrid.align,
+            orders: formDataGrid.orders,
+            upIdx: formDataGrid.upIdx,
+            groupIdx: groupIndexNo,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+
+    axios
+      .post(BASE_URL + "/menuFormGrid", newFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        {
+          console.log(response.data);
+          setFormDataGrid({
+            label: "",
+            datakey: "",
+            width: "",
+            align: "",
+            orders: "",
+            upIdx: "",
+          });
           setRe(!re);
-        });
-    };
+        }
+      });
+  };
+
+  const updateMenuGrid = () => {
+    const newFormData = { ...formDataGrid, indexNo: indexNo.current };
+    axios.put(BASE_URL + "/menuFormGrid", newFormData).then((response) => {
+      console.log(response);
+      setRe(!re);
+    });
+  };
 
   const changeForm = (e) => {
     setFormDataGrid({ ...formDataGrid, [e.target.name]: e.target.value });
@@ -103,12 +97,14 @@ const GridDataModal = ({
   };
 
   const handleChange = useCallback((e) => {
-    const domArray = Array.from(e.target.parentElement.parentElement.childNodes);
+    const domArray = Array.from(
+      e.target.parentElement.parentElement.childNodes
+    );
     const updateArrayForm = domArray.map((item, index) => {
-      if (undefined == (domArray[index].childNodes[0])) {
-        return ""
+      if (undefined == domArray[index].childNodes[0]) {
+        return "";
       }
-      return domArray[index].childNodes[0]
+      return domArray[index].childNodes[0];
     });
     indexNo.current = updateArrayForm[0].textContent;
     setFormDataGrid({
@@ -120,7 +116,7 @@ const GridDataModal = ({
       upIdx: updateArrayForm[6].textContent,
     });
   }, []);
-  
+
   const columnListSet = () => {
     const columItem = gridData.map((item) => (
       <tr name={item.indexNo} key={item.indexNo}>
@@ -134,7 +130,9 @@ const GridDataModal = ({
         <td>{item.havechild}</td>
         <td>
           <button onClick={handleChange}>수정</button>
-          <button name={item.indexNo} onClick={deleteMenuGrid}>삭제</button>
+          <button name={item.indexNo} onClick={deleteMenuGrid}>
+            삭제
+          </button>
         </td>
       </tr>
     ));
@@ -146,7 +144,7 @@ const GridDataModal = ({
         open={open}
         close={closeModal}
         addModalColumn={addMenuFormGrid}
-        updateModalCoulmn={updateMenuGrid}
+        updateModalColumn={updateMenuGrid}
         header="그리드 form 등록"
         main={
           <>
