@@ -70,7 +70,19 @@ export default function StoreManageMenu(){
         });
         setGridData2(gridArraySet);
       };
+      const getGridList1 = () => {
+          axios
+          .get(BASE_URL + "/searchGrid",{
+              params: {companyIdx:companyNo},
+          })
+          .then((response) => {
+              gridSetData(response.data);
+          })
+          .catch((err) => {
+              console.log(err);
+          })
 
+      }
     useEffect(() => {
         axios
           .get(BASE_URL + "/company")
@@ -101,6 +113,7 @@ export default function StoreManageMenu(){
         
         const createColumn = window.confirm("생성 하시겠습니까?")
         const newFormData = new FormData;
+        debugger
         newFormData.append(
             "newFormData",
             new Blob([JSON.stringify(formData)], {type: "application/json"})
@@ -112,7 +125,7 @@ export default function StoreManageMenu(){
         }).then((response) => {
             console.log(response);
             console.log("create");
-            
+            getGridList1();
         }).catch((error) => {
             console.log(error);
         });
@@ -191,6 +204,9 @@ export default function StoreManageMenu(){
                 {
                     data: grid1Item
                 })
+                .then((resource) => {
+                    setGrid1Item({});
+                })
             }
         }else{
             alert("그리드를 선택하세요");
@@ -233,6 +249,9 @@ export default function StoreManageMenu(){
                 .delete(BASE_URL+"/searchGridColumn",
                 {
                     data: grid2Item
+                })
+                .then((resource) => {
+                    setGrid2Item({});
                 })
             }
         }else{
