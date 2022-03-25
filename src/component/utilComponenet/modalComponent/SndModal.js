@@ -6,8 +6,34 @@ import BASE_URL from "../../../utils/Api";
 
 
 
-const Modal = ({ open, closeModal, data }) => {
-  const [formData,setFormData] = useState({});
+const Modal = ({ open, closeModal, data, editData,type }) => {
+  const [formData,setFormData] = useState({
+    label: "",
+    datakey: "",
+    width: "",
+    align: "",
+    orders: "",
+  });
+  const [updateFunc,setUpdateFunc] = useState(() => () => {
+
+  });
+  useEffect(()=>{
+    setFormData({
+      label: "",
+      datakey: "",
+      width: "",
+      align: "",
+      orders: "",
+    });
+    setUpdateFunc(undefined);
+    if(type === "mod"){
+      setFormData(editData);
+      setUpdateFunc(() => () => {
+        const b = "bbbb";
+        console.log(b);
+      })
+    }
+  },[editData,type])
   const changeModalForm = (e) => {
     const gridIdx = data.indexNo;
     setFormData({
@@ -18,7 +44,6 @@ const Modal = ({ open, closeModal, data }) => {
   }
   const addModalColumn = (e) => {
     let newFormData = new FormData();
-    console.log(formData);
     newFormData.append(
       "newFormData",
       new Blob(
@@ -40,25 +65,27 @@ const Modal = ({ open, closeModal, data }) => {
         console.log(response.data);
     });
   }
+
   return (
     <div>
       <ModalComponent
         open={open}
         close={closeModal}
         addModalColumn={addModalColumn}
-        header="Second modal"
+        updateModalCoulmn={updateFunc}
+        header="컬럼 정보 관리"
         main={
           <>
             <Form
               items={[
-                { value: { name: "label", text: "컬럼명"}},
-                { value: { name: "datakey", text: "데이터키"}},
-                { value: { name: "width", text: "길이"}},
-                { value: { name: "align", text: "정렬"}},
-                { value: { name: "orders", text: "순서"}},
+                { value: { name: "label", text: "컬럼명",content:formData.label}},
+                { value: { name: "datakey", text: "데이터키",content:formData.datakey}},
+                { value: { name: "width", text: "길이",content:formData.width}},
+                { value: { name: "align", text: "정렬",content:formData.align}},
+                { value: { name: "orders", text: "순서",content:formData.orders}},
               ]}
               changeForm={changeModalForm}
-              readOnly={true}
+              readOnly={false}
             />
           </>
         }
