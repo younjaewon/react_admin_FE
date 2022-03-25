@@ -3,7 +3,6 @@ import ModalComponent from "./ModalComponent";
 import Form from "../formComponent/FormComponent";
 import Select from "../formComponent/SelectComponent";
 
-
 const Modal = ({
   open,
   closeModal,
@@ -65,7 +64,14 @@ const Modal = ({
               ]}
               changeForm={changeModalForm}
             />
-            <Select name="groupShow" items={[{ name: "form", value: "form" },{name:"grid", value:"grid"}]} changeForm={changeModalForm} />
+            <Select
+              name="groupShow"
+              items={[
+                { name: "form", value: "form" },
+                { name: "grid", value: "grid" },
+              ]}
+              changeForm={changeModalForm}
+            />
             <table
               style={{ textAlign: "center", width: "100%", marginTop: "10px" }}
             >
