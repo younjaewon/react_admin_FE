@@ -44,7 +44,14 @@ export default function StoreManageMenu(){
     const [sndModalOpen, setSndModalOpen] = useState(false);
     const [grid1Item,setGrid1Item] = useState({});
     const [grid1ItemSelected,setGrid1ItemSelected] = useState(false);
-    const [grid2Item,setGrid2Item] = useState({});
+    const [grid2Item,setGrid2Item] = useState({
+        indexNo:"",
+            label: "",
+            datakey: "",
+            width: "",
+            align: "",
+            orders: "",
+    });
     const [grid2ItemTemp,setGrid2ItemTemp] = useState({});
     const [grid2ItemSelected,setGrid2ItemSelected] = useState(false);
     const [fstModalMod,setFstModalMod] = useState("");
@@ -82,6 +89,15 @@ export default function StoreManageMenu(){
               console.log(err);
           })
 
+      }
+      const getGridList2 = () => {
+        axios.get(BASE_URL + "/searchGridColumn",{
+            params: {gridIdx:grid1Item.indexNo},
+        })
+        .then((response) => {
+            gridSetData2(response.data);
+        })
+        .catch(err => console.log(err));
       }
     useEffect(() => {
         axios
@@ -251,7 +267,7 @@ export default function StoreManageMenu(){
                     data: grid2Item
                 })
                 .then((resource) => {
-                    setGrid2Item({});
+                    getGridList2();
                 })
             }
         }else{
@@ -351,8 +367,9 @@ export default function StoreManageMenu(){
                                     open={sndModalOpen} 
                                     closeModal={handelModalClose} 
                                     data={grid1Item} 
-                                    editData={grid2Item} 
-                                    type={sndModalMod}></SecondModal>
+                                    editData={grid2Item}
+                                    type={sndModalMod}
+                                    getGridList={getGridList2}></SecondModal>
                             </div>
                         </div>
                     </div>
