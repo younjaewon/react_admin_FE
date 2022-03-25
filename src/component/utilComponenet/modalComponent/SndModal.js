@@ -20,16 +20,21 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
 
   });
   useEffect(()=>{
-    setFormData({
-      label: "",
-      datakey: "",
-      width: "",
-      align: "",
-      orders: "",
-    });
+    if(type === ""){
+      return false;
+    }
+    console.log("확인");
     setInsertFunc(undefined);
     setUpdateFunc(undefined);
     if(type === "add"){
+      setFormData({
+        label: "",
+        datakey: "",
+        width: "",
+        align: "",
+        orders: "",
+      });
+
       setInsertFunc(() => () => {
         let newFormData = new FormData();
         newFormData.append(
@@ -42,7 +47,6 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
             }
           )
         );
-
         axios
         .post(BASE_URL + "/searchGridColumn",newFormData,
           {
@@ -55,21 +59,31 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
         });
       })
     }else if(type === "mod"){
-      console.log(type)
       setFormData(editData);
       setUpdateFunc(() => () => {
+        console.log("formData : " , formData);
+        handleUpdate();
         const updateChk = window.confirm("수정하시겠습니까?");
         if(updateChk){
           const indexNo = editData.indexNo;
-          console.log("수정");
-          // axios.put(BASE_URL + "/searchGridColumn",{
-          //   indexNo: editData.
-          // })
+          const modFormData = {...formData,indexNo:indexNo};
+          debugger
+          // axios.put(BASE_URL + "/searchGridColumn",
+          //         modFormData)
+          //         .then((resource) => {
+          //           console.log("test");
+          //         })
         }
       });
-      
     }
   },[editData,type])
+
+  const handleUpdate = () => {
+    console.log(formData);
+    console.log("hi");
+  }
+
+
   const changeModalForm = (e) => {
     const gridIdx = data.indexNo;
     setFormData({
@@ -77,6 +91,7 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
       [e.target.name]: e.target.value,
       gridIdx:gridIdx,
       haveChild:"N"});
+    console.log(formData);
   }
   return (
     <div>
