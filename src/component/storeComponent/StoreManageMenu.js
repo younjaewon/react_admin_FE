@@ -8,11 +8,13 @@ import axios from "axios";
 import GridDataModal from ".././utilComponenet/modalComponent/GridDataModal";
 import FormDataModal from "../utilComponenet/modalComponent/FormDataModal";
 import Select from "../utilComponenet/formComponent/SelectComponent";
+import ColumnListModal from "../utilComponenet/modalComponent/ColumnListModal";
 
 export default function StoreManageMenu() {
   const [modalOpen, setModalOpen] = useState(false); //모달오픈
   const [formModalOpen, setFormModalOpen] = useState(false); //모달오픈
   const [gridModalOpen, setGridModalOpen] = useState(false); //모달오픈
+  const [columnModalOpen, setColumnModalOpen] = useState(false); //모달오픈
   const [formData, setFormData] = useState({}); // 메뉴 추가 폼 데이터
   const [modalFormData, setModalFormData] = useState({}); // 메뉴 그리드 Post 데이터
   const [treeMenu, setTreeMenu] = useState([]); // Tree 메뉴 데이터
@@ -104,9 +106,7 @@ export default function StoreManageMenu() {
 
   const menuColumnAdd = async () => {
     let newFormData = new FormData();
-
     console.log(modalFormData);
-
     newFormData.append(
       "newFormData",
       new Blob(
@@ -167,6 +167,14 @@ export default function StoreManageMenu() {
     setFormModalOpen(true);
   };
 
+  const ColumnOpenModal = (e) => {
+    setColumnModalOpen(true);
+  };
+
+  const columnColseModal = () => {
+    setColumnModalOpen(false);
+  };
+
   const formCloseModal = () => {
     setFormModalOpen(false);
   };
@@ -194,7 +202,7 @@ export default function StoreManageMenu() {
       setMenuIndexNo(info.node.indexNo);
       setFormData({
         ...formData,
-        company_idx: companyNo,
+        companyIdx: companyNo,
         name: info.node.name,
         codes: info.node.codes,
         upmenu: info.node.indexNo,
@@ -223,17 +231,22 @@ export default function StoreManageMenu() {
   };
 
   const addFormGroup = (e) => {
-    menuColumnGet();
-    openModal();
-    console.log(menuIndexNo);
+    if (menuIndexNo === "") {
+      window.alert("메뉴를 선택해주세요.");
+    } else {
+      menuColumnGet();
+      openModal();
+      console.log(menuIndexNo);
+    }
   };
 
-  const addGridData = (e) => {
-    gridOpenModal();
-  };
-
-  const addFormData = (e) => {
-    console.log(menuIndexNo);
+  const addListColumn = (e) => {
+    if (menuIndexNo === "") {
+      window.alert("메뉴를 선택해주세요.");
+    } else {
+      ColumnOpenModal();
+      console.log(menuIndexNo);
+    }
   };
 
   return (
@@ -250,8 +263,19 @@ export default function StoreManageMenu() {
             <button className="mes-button" onClick={updateMenu}>
               수정
             </button>
-            <button className="mes-button" onClick={addFormGroup}>
-              폼 그룹 데이터
+            <button
+              style={{ background: "#4dd3d3" }}
+              className="mes-button"
+              onClick={addFormGroup}
+            >
+              폼 그룹 등록 모달
+            </button>
+            <button
+              style={{ background: "#4dd3d3" }}
+              className="mes-button"
+              onClick={addListColumn}
+            >
+              리스트 컬럼 등록 모달
             </button>
             <div>
               <select onChange={changeSelect}>
@@ -276,10 +300,10 @@ export default function StoreManageMenu() {
                   items={[
                     {
                       value: {
-                        name: "company_idx",
+                        name: "companyIdx",
                         text: "회사코드",
-                        content: formData.company_idx,
-                        readonly: true,
+                        content: formData.companyIdx,
+                        readOnly: true,
                       },
                     },
                     {
@@ -382,6 +406,11 @@ export default function StoreManageMenu() {
                 open={formModalOpen}
                 closeModal={formCloseModal}
                 groupIndexNo={groupIndexNo}
+              />
+              <ColumnListModal
+                open={columnModalOpen}
+                closeModal={columnColseModal}
+                menuIdx={menuIndexNo}
               />
             </div>
           </div>
