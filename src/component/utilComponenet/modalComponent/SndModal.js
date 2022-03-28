@@ -6,7 +6,7 @@ import BASE_URL from "../../../utils/Api";
 
 
 
-const Modal = ({ open, closeModal, data, editData,type }) => {
+const Modal = ({ open, closeModal, data, editData,type,getGridList}) => {
   const [formData,setFormData] = useState({
     label: "",
     datakey: "",
@@ -29,6 +29,8 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
                 modFormData)
                 .then((resource) => {
                   console.log("test");
+                  closeModal();
+                  getGridList();
                 })
       }
     }
@@ -56,6 +58,8 @@ const Modal = ({ open, closeModal, data, editData,type }) => {
           })
           .then((response) => {
             console.log(response.data);
+            closeModal();
+            getGridList();
           });
     }
   }
